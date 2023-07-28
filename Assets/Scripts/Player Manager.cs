@@ -14,6 +14,7 @@ public class PlayerManager : MonoBehaviour
 	private float timer = 0f;
 	private float bulletDelay;
 
+	private GameObject[] bulletPrefabs = new GameObject[3];
 	private GameObject firePrefab;
 	private GameObject waterPrefab;
 	private GameObject thunderPrefab;
@@ -35,6 +36,8 @@ public class PlayerManager : MonoBehaviour
 
 	private enum mode { origin = 0, transform};
 	private mode currentMode;
+	private enum bulletID { fire = 0, water };
+	private bulletID currentbullet;
 
 	private static PlayerManager instance;
 
@@ -48,10 +51,11 @@ public class PlayerManager : MonoBehaviour
 		animator = playerImg.GetComponent<Animator>();
 		boxCollider = GetComponent<BoxCollider2D>();
 		currentMode = mode.origin;
+		currentbullet = bulletID.fire;
 
-		firePrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Fire.prefab", typeof(GameObject));
-		waterPrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Water.prefab", typeof(GameObject));
-		thunderPrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Thunder.prefab", typeof(GameObject));
+		bulletPrefabs[0] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Fire.prefab", typeof(GameObject));
+        bulletPrefabs[1] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Water.prefab", typeof(GameObject));
+        bulletPrefabs[2] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Thunder.prefab", typeof(GameObject));
 
 
 		transformImg.SetActive(false);
@@ -110,6 +114,16 @@ public class PlayerManager : MonoBehaviour
                     break;
             }
         }
+		else if (Input.GetButtonDown("Fire3"))
+		{
+			switch (currentMode)
+			{
+				case mode.origin:
+					if(currentbullet == bulletID.fire)currentbullet = bulletID.water;
+					else currentbullet = bulletID.fire;
+				break;
+			}
+		}
 
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
 
@@ -205,13 +219,14 @@ public class PlayerManager : MonoBehaviour
 
 	void AttackOrigin()
 	{
-		bulletDelay = firePrefab.GetComponent<BulletManager>().bulletDelay;
+		GameObject bullet = bulletPrefabs[(int)currentbullet];
+		bulletDelay = bullet.GetComponent<BulletManager>().bulletDelay;
 		timer += Time.deltaTime;
 		if (isAttackOrigin)
 		{
 			if (timer > bulletDelay)
 			{
-				Instantiate(firePrefab, this.transform.position, this.transform.rotation);
+				Instantiate(bullet, this.transform.position, this.transform.rotation);
 				timer = 0;
 			}
 			isAttackOrigin = false;
@@ -220,13 +235,13 @@ public class PlayerManager : MonoBehaviour
 
     void AttackTransform()
     {
-        bulletDelay = thunderPrefab.GetComponent<BulletManager>().bulletDelay;
+        bulletDelay = bulletPrefabs[2].GetComponent<BulletManager>().bulletDelay;
         timer += Time.deltaTime;
         if (isAttackTransform)
         {
             if (timer > bulletDelay)
             {
-                Instantiate(thunderPrefab, this.transform.position, this.transform.rotation);
+				Instantiate(bulletPrefabs[2], this.transform.position, this.transform.rotation);
                 timer = 0;
             }
             isAttackTransform = false;
@@ -259,20 +274,25 @@ public class PlayerManager : MonoBehaviour
             this.jumpPower *= 6;
             this.movePower *= 2;
             currentMode = mode.origin;
+
+			transformImg.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
 	}
 
 	void OnTriggerStay2D(Collider2D collision)
 	{
-		switch(currentMode)
+		if(collision.tag == "Ground")
 		{
-			case mode.origin:
-                animator.SetBool("isJumping", false);
-                animator.SetBool("isTeleport", false);
-				break;
-			case mode.transform:
-				animator.SetBool("isFloating", false);
-				break;
+            switch (currentMode)
+            {
+                case mode.origin:
+                    animator.SetBool("isJumping", false);
+                    animator.SetBool("isTeleport", false);
+                    break;
+                case mode.transform:
+                    animator.SetBool("isFloating", false);
+                    break;
+            }
         }
 	}
 
