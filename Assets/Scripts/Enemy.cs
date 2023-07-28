@@ -31,4 +31,5 @@ public abstract class Enemy : MonoBehaviour
     }
 
     public abstract void DamageByBulet();
+    public abstract void DamageToWeakPoint();
 }
