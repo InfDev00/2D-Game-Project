@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EraAttack : MonoBehaviour
+public class EraImg : MonoBehaviour
 {
-    public bool isAttack = false;
+    public Transform target;
+    public bool isMove = false;
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if (collision.tag == "Player")
         {
-            this.isAttack = true;
+            this.target = collision.transform;
+            this.isMove = true;
         }
     }
 
@@ -18,7 +20,8 @@ public class EraAttack : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            this.isAttack = false;
+            this.target = null;
+            this.isMove = false;
         }
     }
 }

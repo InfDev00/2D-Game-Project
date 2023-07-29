@@ -6,6 +6,7 @@ public class BulletManager : MonoBehaviour
 {
     public float bulletSpeed = 0.02f;
     public float bulletDelay = 0.1f;
+    public int bulletDamage = 3;
     private Vector3 direction;
     // Start is called before the first frame update
     void Awake()
@@ -23,6 +24,25 @@ public class BulletManager : MonoBehaviour
     {
 
         transform.Translate(direction * bulletSpeed);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("aa");
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D collision)
+    {
+
+        if (collision.tag == "Enemy")
+        {
+            Destroy(this.gameObject);
+        }
+
     }
 
     void OnBecameInvisible()

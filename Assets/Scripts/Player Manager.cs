@@ -226,7 +226,7 @@ public class PlayerManager : MonoBehaviour
 		{
 			if (timer > bulletDelay)
 			{
-				Instantiate(bullet, this.transform.position, this.transform.rotation);
+				Instantiate(bullet, this.transform.position + new Vector3(this.transform.localScale.x, 0, 0), this.transform.rotation);
 				timer = 0;
 			}
 			isAttackOrigin = false;
@@ -241,7 +241,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (timer > bulletDelay)
             {
-				Instantiate(bulletPrefabs[2], this.transform.position, this.transform.rotation);
+				Instantiate(bulletPrefabs[2], this.transform.position + new Vector3(this.transform.localScale.x, 0, 0), this.transform.rotation);
                 timer = 0;
             }
             isAttackTransform = false;
