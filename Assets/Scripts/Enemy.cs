@@ -8,7 +8,7 @@ public abstract class Enemy : MonoBehaviour
     protected Rigidbody2D rb;
     protected Animator animator;
     protected bool isGround;
-    [SerializeField] Transform raypoint;
+    [SerializeField] Transform rayPoint;
     [SerializeField] protected int hp;
     [SerializeField] protected int atk;
     [SerializeField] protected int speed;
@@ -21,13 +21,19 @@ public abstract class Enemy : MonoBehaviour
     public bool CheckGround()
     {
 
-        Debug.DrawRay(raypoint.transform.position,Vector3.down, Color.blue);
-        if (Physics2D.Raycast(raypoint.transform.position, Vector3.down, 5))
+        Debug.DrawRay(rayPoint.transform.position,Vector3.down, Color.blue);
+        if (Physics2D.Raycast(rayPoint.transform.position, Vector3.down, 5))
         {
             return true;
         }
         else return false;
 
+    }
+
+    public int DistanceToPlayer()
+    {
+        float distance = Vector3.Distance(this.transform.position, playerManager.transform.position);
+        return (int)distance;
     }
 
     public abstract void DamageByBulet();
