@@ -79,10 +79,10 @@ public class EraManager : MonoBehaviour
 
     IEnumerator Idle()
     {
-        if (eraImg.isMove)
+        if (eraImg.GetIsMove())
         {
             this.currentFlag = movementFlag.Move;
-            this.target = eraImg.target;
+            this.target = eraImg.GetTarget();
             yield break;
         }
         animator.SetBool("isMove", false);
@@ -104,7 +104,7 @@ public class EraManager : MonoBehaviour
     IEnumerator Move()
     {
         if (target == null) yield break;
-        if (!eraImg.isMove)
+        if (!eraImg.GetIsMove)
         {
             this.currentFlag = movementFlag.Idle;
             yield break;

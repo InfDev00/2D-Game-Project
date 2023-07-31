@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GumbaEnemy : Character, IInteractable
+public class GumbaEnemy : CharacterManager, IInteractable
 {
     enum GroundEnemy { Default, Dash, Turret }
     private Vector3 direction = Vector3.left;

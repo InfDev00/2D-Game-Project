@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Character : MonoBehaviour
+public abstract class CharacterManager : MonoBehaviour
 {
     protected PlayerManager playerManager = PlayerManager.Instance;
     protected Rigidbody2D rb;

@@ -312,8 +312,10 @@ public class PlayerManager : MonoBehaviour
             case mode.transform:
                 break;
         }
-
     }
+
+	public int GetHP() { return this.HP; }
+
     public static PlayerManager Instance
 	{
 		get { return instance; }

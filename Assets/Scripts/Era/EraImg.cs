@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EraImg : MonoBehaviour
 {
-    public Transform target;
-    public bool isMove = false;
+    private Transform target;
+    private bool isMove = false;
 
     void OnTriggerStay2D(Collider2D collision)
     {
@@ -24,4 +24,7 @@ public class EraImg : MonoBehaviour
             this.isMove = false;
         }
     }
+
+    public Transform GetTarget() { return target; }
+    public bool GetIsMove() { return isMove; }
 }
