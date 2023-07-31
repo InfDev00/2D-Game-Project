@@ -16,6 +16,7 @@ public class EraManager : MonoBehaviour
     private GameObject EggPrefab;
     private GameObject SoundPrefab;
 
+    private Rigidbody2D rigid;
     private Animator animator;
     private Transform target;
 
@@ -32,6 +33,7 @@ public class EraManager : MonoBehaviour
         this.HP = MaxHP;
         eraImg = transform.Find("EraImg").gameObject.GetComponent<EraImg>();
         animator = transform.Find("EraImg").gameObject.GetComponent<Animator>();
+        rigid = gameObject.GetComponent<Rigidbody2D>();
 
         EggPrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Enemy/Era/Egg.prefab", typeof(GameObject));
         SoundPrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Enemy/Era/Sound.prefab", typeof(GameObject));
@@ -39,6 +41,14 @@ public class EraManager : MonoBehaviour
         StartCoroutine(Flag());
     }
 
+    void Update()
+    {
+        if(this.HP > 0)
+        {
+            this.rigid.velocity = Vector3.zero;
+            this.rigid.angularVelocity = 0f;
+        }
+    }
 
     IEnumerator Flag()
     {
@@ -56,7 +66,7 @@ public class EraManager : MonoBehaviour
                         this.currentMode = mode.angry;
                         this.movePower *= 2;
                         this.animator.SetTrigger("Angry");
-                        this.transform.Find("EraImg").gameObject.GetComponent<CircleCollider2D>().radius *= 2;
+                        this.transform.Find("EraImg").gameObject.GetComponent<CircleCollider2D>().radius *= 10;
                     }
                     break;
                 case mode.angry:
@@ -83,11 +93,14 @@ public class EraManager : MonoBehaviour
 
     IEnumerator Killed()
     {
-        Debug.Log("died");
+        this.animator.SetTrigger("Die");
+        this.rigid.AddForce(new Vector2(0, 5f), ForceMode2D.Impulse);
+        this.GetComponent<BoxCollider2D>().enabled = false;
+        this.rigid.gravityScale = 2;
 
+        Destroy(this.gameObject, 1f);
         yield break;
     }
-
     IEnumerator Move()
     {
         if (target == null) yield break;
@@ -148,7 +161,7 @@ public class EraManager : MonoBehaviour
             case mode.normal:
                 if (eggTimer > eggDelay)
                 {
-                    Instantiate(EggPrefab, this.transform.position, this.transform.rotation);
+                    Instantiate(EggPrefab, this.transform.position + new Vector3(0, -0.5f, 0), this.transform.rotation);
                     eggTimer = 0;
                 }
                 break;
@@ -171,7 +184,7 @@ public class EraManager : MonoBehaviour
         switch (currentMode)
         {
             case mode.normal:
-                if (transform.position.x - 1f < target.position.x && target.position.x < transform.position.x+1f && 
+                if (transform.position.x - 0.5f < target.position.x && target.position.x < transform.position.x+0.5f && 
                     transform.position.y - attackRange < target.position.y && target.position.y < transform.position.y)
                 {
                     return true;
@@ -189,12 +202,11 @@ public class EraManager : MonoBehaviour
         return false;
     }
 
-    void OnTriggerStay2D(Collider2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.tag == "Bullet")
+        if (collision.gameObject.CompareTag("Bullet"))
         {
-            this.HP -= collision.GetComponent<BulletManager>().bulletDamage;
+            this.HP -= collision.gameObject.GetComponent<BulletManager>().bulletDamage;
         }
-
     }
 }

@@ -11,6 +11,8 @@ public class PlayerManager : MonoBehaviour
 	public float movePower = 1f;
 	public float jumpPower = 1f;
 	public float doubleJumpPower = 1f;
+	public int MaxHP = 10;
+	private int HP = 10;
 	private float timer = 0f;
 	private float bulletDelay;
 
@@ -45,6 +47,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		if (instance == null) instance = this;
 
+		this.HP = MaxHP;
 		rigid = gameObject.GetComponent<Rigidbody2D>();
 		playerImg = transform.Find("PlayerImg").gameObject;
 		transformImg = transform.Find("TransformImg").gameObject;
@@ -226,7 +229,7 @@ public class PlayerManager : MonoBehaviour
 		{
 			if (timer > bulletDelay)
 			{
-				Instantiate(bullet, this.transform.position + new Vector3(this.transform.localScale.x, 0, 0), this.transform.rotation);
+				Instantiate(bullet, this.transform.position + new Vector3(this.transform.localScale.x*0.7f, 0, 0), this.transform.rotation);
 				timer = 0;
 			}
 			isAttackOrigin = false;
@@ -296,7 +299,21 @@ public class PlayerManager : MonoBehaviour
         }
 	}
 
-	public static PlayerManager Instance
+	public void Damaged(int damage)
+	{
+		this.HP -= damage;
+
+        switch (currentMode)
+        {
+            case mode.origin:
+                rigid.AddForce(new Vector2(this.transform.localScale.x * (-2f), 4f), ForceMode2D.Impulse);
+                break;
+            case mode.transform:
+                break;
+        }
+
+    }
+    public static PlayerManager Instance
 	{
 		get { return instance; }
 	}
