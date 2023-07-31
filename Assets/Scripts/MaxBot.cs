@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GumbaEnemy : CharacterManager, IInteractable
+public class MaxBot : CharacterManager, IInteractable
 {
     enum GroundEnemy { Default, Dash, Turret }
     private Vector3 direction = Vector3.left;
@@ -20,26 +20,82 @@ public class GumbaEnemy : CharacterManager, IInteractable
         playerManager = PlayerManager.Instance;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        StartCoroutine(Move());
-        //Debug.Log(playerManager.name);
+        state = State.Idle;
+        StartCoroutine(StateMachine());
+    }
+
+    protected override IEnumerator Idle()
+    {
+        animator.SetBool("isWalk", true);
+
+        transform.position += /*여기에 음수양수 바꾸는 bool 변수 추가해서 맵 끝에 도달하면 자동으로 반대방향으로 가게 하자*/
+            direction * speed * Time.deltaTime;
+
+        yield return null;
+
+        if (CheckGround() == false)
+        {
+            animator.SetBool("isWalk", false);
+            yield return new WaitForSeconds(3f);
+            TurnAround();
+            animator.SetBool("isWalk", true);
+        }
+
+        //여기서 checkplayer 하고 적 종류에 따라 다른 공격패턴 구현?
+        if (DistanceToPlayer() < range)
+        {
+            Debug.Log("Detect");
+            ChangeState(State.Chase);
+        }
+    }
+
+    protected override IEnumerator Chase()
+    {
+        Debug.Log("Chase");
+        SeePlayer();
+        yield return null;
+        ChangeState(State.Attack);
+    }
+
+    protected override IEnumerator Attack()
+    {
+        yield return new WaitForSeconds(1f);
+
+        switch (enemyType)
+        {
+            case GroundEnemy.Default:
+                ChangeState(State.Idle);
+                break;
+            case GroundEnemy.Dash:
+                yield return Dash();
+                break;
+            case GroundEnemy.Turret:
+                yield return Turret();
+                break;
+            default:
+                break;
+        }
+    }
+
+    protected override IEnumerator Killed()
+    {
+        Debug.Log(this.gameObject.name + " died");
+        animator.SetBool("isDie", true);
+        yield return new WaitForSeconds(1.3f);
+        Destroy(gameObject);
     }
 
     //coroutine 적극사용
     //총알맞았을 때 효과
     IEnumerator HitCo()
     {
-        if (hp<=0)
-        {
-            StartCoroutine(DieCo());
-            yield break;
-        }
-        rb.AddForce(hitDir,ForceMode2D.Impulse);
+        rb.AddForce(hitDir, ForceMode2D.Impulse);
         Debug.Log("Hit by bullet");
         hp -= 1;
-        yield return new WaitForSeconds(2f);
-        StartCoroutine(Move());
+        yield return new WaitForSeconds(1f);
+        //StartCoroutine(Move());
     }
-    
+
     //죽었을 때 효과
     IEnumerator DieCo()
     {
@@ -49,48 +105,7 @@ public class GumbaEnemy : CharacterManager, IInteractable
         Destroy(gameObject);
     }
 
-    IEnumerator Move()
-    {
-        animator.SetBool("isWalk", true);
-        while (true)
-        {
-            transform.position += /*여기에 음수양수 바꾸는 bool 변수 추가해서 맵 끝에 도달하면 자동으로 반대방향으로 가게 하자*/
-                direction * speed * Time.deltaTime;
-
-            yield return null;
-
-            if (CheckGround() == false)
-            {
-                animator.SetBool("isWalk", false);
-                yield return new WaitForSeconds(3f);
-                TurnAround();
-                animator.SetBool("isWalk", true);
-            }
-
-            //여기서 checkplayer 하고 적 종류에 따라 다른 공격패턴 구현?
-            if (DistanceToPlayer()<range)
-            {
-                //플레이어 인지했을 시 애니메이션 호출하는 등의 함수 필요할듯
-                SeePlayer();
-                yield return new WaitForSeconds(1.5f);
-                switch (enemyType)
-                {
-                    case GroundEnemy.Default:
-                        //??
-                        break;
-                    case GroundEnemy.Dash:
-                        yield return Dash();
-                        break;
-                    case GroundEnemy.Turret:
-                        yield return Turret();
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-        }
-    }
+    
 
     IEnumerator Dash()
     {
@@ -98,6 +113,7 @@ public class GumbaEnemy : CharacterManager, IInteractable
         Debug.Log("Do Dash");
         rb.AddForce(dashDir.normalized*dashSpd, ForceMode2D.Impulse);
         yield return new WaitForSeconds(2f);
+        ChangeState(State.Idle);
         //yield return Move();
     }
 
@@ -113,6 +129,7 @@ public class GumbaEnemy : CharacterManager, IInteractable
         //turretsth launch missile?
         yield return new WaitForSeconds(1f);
         //yield return Move();
+        ChangeState (State.Idle);
     }
     
     
@@ -153,7 +170,6 @@ public class GumbaEnemy : CharacterManager, IInteractable
 
         if (collision.gameObject.tag=="Bullet")
         {
-            StopAllCoroutines();
             StartCoroutine(HitCo());
         }
     }
@@ -180,23 +196,5 @@ public class GumbaEnemy : CharacterManager, IInteractable
         Debug.Log($"{this.name} Died.");
     }
 
-    protected override IEnumerator Idle()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    protected override IEnumerator Chase()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    protected override IEnumerator Attack()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    protected override IEnumerator Killed()
-    {
-        throw new System.NotImplementedException();
-    }
+   
 }

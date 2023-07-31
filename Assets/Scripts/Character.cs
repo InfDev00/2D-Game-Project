@@ -9,11 +9,12 @@ public abstract class CharacterManager : MonoBehaviour
     protected Animator animator;
     protected bool isGround;
     [SerializeField] Transform rayPoint;
+    [SerializeField] protected int maxHP;
     [SerializeField] protected int hp;
     [SerializeField] protected int atk;
     [SerializeField] protected int speed;
 
-    protected enum State { Idle, Chase, Attack, Killed }
+    protected enum State { Idle, Chase, Attack, Killed, Move }
     protected State state;
 
     protected IEnumerator StateMachine()
@@ -22,6 +23,8 @@ public abstract class CharacterManager : MonoBehaviour
         {
             yield return StartCoroutine(state.ToString());
         }
+
+        StartCoroutine(Killed());
     }
 
     protected abstract IEnumerator Idle();
