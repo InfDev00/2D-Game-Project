@@ -10,8 +10,8 @@ public class WeakPoint : MonoBehaviour
         if (collision.gameObject.tag=="Player")
         {
             this.transform.parent.gameObject.TryGetComponent(out IInteractable interactable);
-            interactable.StepOn();
-            this.gameObject.SetActive(false);
+            interactable.Interact();
+            //this.gameObject.SetActive(false);
         }
     }
 

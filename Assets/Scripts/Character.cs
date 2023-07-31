@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour
+public abstract class Character : MonoBehaviour
 {
     protected PlayerManager playerManager = PlayerManager.Instance;
     protected Rigidbody2D rb;
@@ -13,7 +13,29 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int atk;
     [SerializeField] protected int speed;
 
-    public void DealDamage()
+    protected enum State { Idle, Chase, Attack, Killed }
+    protected State state;
+
+    protected IEnumerator StateMachine()
+    {
+        while (hp > 0) 
+        {
+            yield return StartCoroutine(state.ToString());
+        }
+    }
+
+    protected abstract IEnumerator Idle();
+    protected abstract IEnumerator Chase();
+    protected abstract IEnumerator Attack();
+    protected abstract IEnumerator Killed();
+
+    protected void ChangeState(State newState)
+    {
+        state = newState;
+    }
+        
+
+        public void DealDamage()
     {
         //playerManager.
     }

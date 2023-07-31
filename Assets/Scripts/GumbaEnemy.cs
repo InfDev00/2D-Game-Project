@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GumbaEnemy : Enemy, IInteractable
+public class GumbaEnemy : Character, IInteractable
 {
     enum GroundEnemy { Default, Dash, Turret }
     private Vector3 direction = Vector3.left;
@@ -136,6 +136,13 @@ public class GumbaEnemy : Enemy, IInteractable
         this.transform.localScale = new Vector3(xScale, 1, 1);
     }
 
+    void TurnUpsideDown()
+    {
+        Vector3 currentScale = transform.localScale;
+        currentScale = new Vector3(1, -0.1f, 1);
+        transform.localScale = currentScale;
+    }
+
     void LaunchMissile()
     {
 
@@ -150,13 +157,11 @@ public class GumbaEnemy : Enemy, IInteractable
             StartCoroutine(HitCo());
         }
     }
-    public void StepOn()
+    public void Interact()
     {
+        Debug.Log("stepon");
         StopAllCoroutines();
-        //animator.SetBool("isSteppedOn", true);
-        Vector3 currentScale = transform.localScale;
-        currentScale = new Vector3(1, -0.1f, 1);
-        transform.localScale = currentScale;
+        TurnUpsideDown();
         GetComponent<BoxCollider2D>().enabled = false;
         rb.AddForce(Vector3.up * 2, ForceMode2D.Impulse);
         rb.AddTorque(1, ForceMode2D.Impulse);
@@ -173,5 +178,25 @@ public class GumbaEnemy : Enemy, IInteractable
     {
         //여기에 애니메이션이나 효과 추가
         Debug.Log($"{this.name} Died.");
+    }
+
+    protected override IEnumerator Idle()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override IEnumerator Chase()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override IEnumerator Attack()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override IEnumerator Killed()
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    public void StepOn();
+
+    public void Interact();
 }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class EnemyMakerTest : MonoBehaviour
 {
-    public Enemy enemy;
+    public Character enemy;
 }
