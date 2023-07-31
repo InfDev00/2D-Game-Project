@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 784573353280841917}
   - component: {fileID: 8717355714268112612}
   m_Layer: 0
-  m_Name: InteractPoint
+  m_Name: OnCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EraImg : MonoBehaviour
+public class OnDetect : MonoBehaviour
 {
     private Transform target;
     private bool isMove = false;

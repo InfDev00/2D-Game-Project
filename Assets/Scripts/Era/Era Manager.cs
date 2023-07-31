@@ -20,7 +20,7 @@ public class EraManager : MonoBehaviour
     private Animator animator;
     private Transform target;
 
-    private EraImg eraImg;
+    private OnDetect eraImg;
 
     private enum movementFlag { Idle = 0, Move, Attack, Killed };
     private movementFlag currentFlag = movementFlag.Idle;
@@ -31,7 +31,7 @@ public class EraManager : MonoBehaviour
     void Awake()
     {
         this.HP = MaxHP;
-        eraImg = transform.Find("EraImg").gameObject.GetComponent<EraImg>();
+        eraImg = transform.Find("EraImg").gameObject.GetComponent<OnDetect>();
         animator = transform.Find("EraImg").gameObject.GetComponent<Animator>();
         rigid = gameObject.GetComponent<Rigidbody2D>();
 
@@ -104,7 +104,7 @@ public class EraManager : MonoBehaviour
     IEnumerator Move()
     {
         if (target == null) yield break;
-        if (!eraImg.GetIsMove)
+        if (!eraImg.GetIsMove())
         {
             this.currentFlag = movementFlag.Idle;
             yield break;
