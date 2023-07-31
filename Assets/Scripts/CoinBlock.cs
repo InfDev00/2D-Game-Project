@@ -43,4 +43,9 @@ public class CoinBlock : MonoBehaviour, IInteractable
     {
         
     }
+
+    public void Detect(Transform target)
+    {
+
+    }
 }

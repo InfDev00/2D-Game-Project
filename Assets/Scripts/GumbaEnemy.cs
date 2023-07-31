@@ -49,7 +49,7 @@ public class GumbaEnemy : CharacterManager, IInteractable
         Destroy(gameObject);
     }
 
-    IEnumerator Move()
+    protected override IEnumerator Move()
     {
         animator.SetBool("isWalk", true);
         while (true)
@@ -168,7 +168,12 @@ public class GumbaEnemy : CharacterManager, IInteractable
         StartCoroutine(DieCo());
     }
 
-    public override void DamageByBulet()
+    public void Detect(Transform target)
+    {
+
+    }
+
+    public override void DamageByBullet()
     {
         //dosomething
         //적의 종류마다 bullet에 맞았을 때 다른 효과가 일어나게
