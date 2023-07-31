@@ -207,12 +207,12 @@ public class PlayerManager : MonoBehaviour
 			rigid.velocity = Vector2.zero;
 
 			//[editable start]
-			Vector3 teleport = new Vector3(doubleJumpPower, 0, 0);
-			if (transform.localScale.x < 0) this.transform.position -= teleport;
-			else this.transform.position += teleport;
-			//Vector2 jumpVelocity = new Vector2(doubleJumpOriginPower, doubleJumpOriginPower / 2);
-			//if (transform.localScale.x < 0) jumpVelocity = new Vector2(doubleJumpOriginPower * (-1), doubleJumpOriginPower / 2);
-			//rigid.AddForce(jumpVelocity, ForceMode2D.Impulse);
+			//Vector3 teleport = new Vector3(doubleJumpPower, 0, 0);
+			//if (transform.localScale.x < 0) this.transform.position -= teleport;
+			//else this.transform.position += teleport;
+			Vector2 jumpVelocity = new Vector2(doubleJumpPower, doubleJumpPower / 2);
+			if (transform.localScale.x < 0) jumpVelocity = new Vector2(doubleJumpPower * (-1), doubleJumpPower / 2);
+			rigid.AddForce(jumpVelocity, ForceMode2D.Impulse);
 
 			//[editable end]
 
@@ -286,6 +286,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		if(collision.tag == "Ground")
 		{
+            rigid.velocity = Vector2.zero;
             switch (currentMode)
             {
                 case mode.origin:

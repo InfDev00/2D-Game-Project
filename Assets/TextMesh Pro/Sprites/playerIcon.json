@@ -1,0 +1,21 @@
+{"frames": [
+
+{
+	"filename": "Player.gif",
+	"frame": {"x":0,"y":0,"w":600,"h":600},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":600,"h":600},
+	"sourceSize": {"w":600,"h":600},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "playerIcon.png",
+	"format": "RGBA8888",
+	"size": {"w":600,"h":600},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:794e48a6a82bb7af3417e7a7b8f97d50:b3c915bf674f783d78b2117b07052e39:dd1c5093054b59aa57f9371245aecc1f$"
+}
+}
