@@ -56,6 +56,7 @@ public class EraManager : MonoBehaviour
                         this.currentMode = mode.angry;
                         this.movePower *= 2;
                         this.animator.SetTrigger("Angry");
+                        this.transform.Find("EraImg").gameObject.GetComponent<CircleCollider2D>().radius *= 2;
                     }
                     break;
                 case mode.angry:
@@ -155,7 +156,8 @@ public class EraManager : MonoBehaviour
                 animator.SetTrigger("doAttack");
                 if (eggTimer > eggDelay)
                 {
-                    Instantiate(SoundPrefab, this.transform.position + new Vector3(this.transform.localScale.x * (-1f), 0, 0), this.transform.rotation);
+                    float dir = transform.localScale.x > 0 ? 1 : 0;
+                    Instantiate(SoundPrefab, this.transform.position + new Vector3(this.transform.localScale.x * (-1f), 0, 0), Quaternion.Euler(0,180f * dir, 0));
                     eggTimer = 0;
                 }
                 break;
