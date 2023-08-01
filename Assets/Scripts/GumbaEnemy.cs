@@ -49,7 +49,7 @@ public class GumbaEnemy : CharacterManager, IInteractable
         Destroy(gameObject);
     }
 
-    protected override IEnumerator Move()
+    IEnumerator Move()
     {
         animator.SetBool("isWalk", true);
         while (true)

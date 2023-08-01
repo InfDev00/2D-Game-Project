@@ -14,7 +14,8 @@ public class PlayerManager : CharacterManager, IInteractable
 	private GameObject[] bulletPrefabs = new GameObject[3];
 
     private enum Jump { ground, jumpping, doubleJumpping };
-    private Jump jumpState;
+    private Jump jump;
+    private bool isJump = false;
 
     private static PlayerManager instance;
 
@@ -25,8 +26,8 @@ public class PlayerManager : CharacterManager, IInteractable
 		this.hp = maxHP;
 		rb = gameObject.GetComponent<Rigidbody2D>();
 		animator = this.GetComponent<Animator>();
-        this.jumpState = Jump.ground;
-		this.state = State.Idle;
+        this.jump = Jump.ground;
+        ChangeState(State.Idle);
 
 		bulletPrefabs[0] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Fire.prefab", typeof(GameObject));
         bulletPrefabs[1] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Water.prefab", typeof(GameObject));
@@ -37,6 +38,11 @@ public class PlayerManager : CharacterManager, IInteractable
 
     void Update()
     {
+        timer += Time.deltaTime;
+        if (Input.GetButtonDown("Jump")) isJump = true;
+
+        if (Input.GetButtonDown("Fire1")) ChangeState(State.Attack);
+
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
 
         if (pos.x < 0f) pos.x = 0f;
@@ -47,24 +53,20 @@ public class PlayerManager : CharacterManager, IInteractable
         transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
 
+    void FixedUpdate()
+    {
+        Move();
+    }
 
     protected override IEnumerator Idle()
 	{
-        animator.Play("Idle");
-
-        if (Input.GetButtonDown("Jump") || Input.GetButtonDown("Horizontal"))
+        if (Input.GetButtonDown("Jump") || Input.GetButton("Horizontal"))
         {
-            this.state = State.Move;
             yield break;
         }
 
-        else if (Input.GetButton("Fire1"))
-        {
-            this.state = State.Attack;
-            yield break;
-        }
-
-        yield return null;
+        if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) animator.Play("Idle");
+        yield break;
 	}
 
     protected override IEnumerator Chase()
@@ -74,8 +76,10 @@ public class PlayerManager : CharacterManager, IInteractable
 
     protected override IEnumerator Attack()
 	{
-		animator.Play("Attack");
+        var curAnimStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        animator.Play("Attack");
         GameObject bullet = bulletPrefabs[0];
+        Debug.Log(bullet.name);
 
         bulletDelay = bullet.GetComponent<BulletManager>().bulletDelay;
         timer += Time.deltaTime;
@@ -85,26 +89,28 @@ public class PlayerManager : CharacterManager, IInteractable
             timer = 0;
         }
 
-        this.state = State.Idle;
-        yield return null;
+        ChangeState(State.Idle);
+        yield return new WaitForSeconds(curAnimStateInfo.length *2f);
     }
 
-	protected override IEnumerator Move()
-	{
+	void Move()
+    {    
         Vector2 jumpVelocity = Vector2.zero;
-        if (Input.GetButtonDown("Jump"))
+        if (isJump)
         {
-            switch (jumpState)
+            switch (jump)
             {
                 case Jump.ground:
+                    animator.Play("Jump", -1, 0f);
                     rb.velocity = Vector2.zero;
                     jumpVelocity = new Vector2(0, jumpPower);
                     rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
-                    jumpState = Jump.jumpping;
-                    yield return null;
+                    jump = Jump.jumpping;
+                    isJump = false;
                     break;
 
                 case Jump.jumpping:
+                    animator.Play("Jump",-1, 0f);
                     rb.velocity = Vector2.zero;
                     //Vector3 teleport = new Vector3(doubleJumpPower, 0, 0);
                     //if (transform.localScale.x < 0) this.transform.position -= teleport;
@@ -112,12 +118,11 @@ public class PlayerManager : CharacterManager, IInteractable
                     jumpVelocity = new Vector2(doubleJumpPower, doubleJumpPower);
                     if (transform.localScale.x < 0) jumpVelocity = new Vector2(doubleJumpPower * (-1), doubleJumpPower / 2);
                     rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
-                    jumpState = Jump.doubleJumpping;
-                    yield return null;
+                    jump = Jump.doubleJumpping;
+                    isJump = false;
                     break;
 
                 case Jump.doubleJumpping:
-                    yield return null;
                     break;
             }
         }
@@ -125,9 +130,10 @@ public class PlayerManager : CharacterManager, IInteractable
         Vector3 moveVelocity = Vector3.zero;
         float horizontal = Input.GetAxisRaw("Horizontal");
 
-        if (horizontal == 0)
+        if (horizontal == 0 && !animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
         {
-            animator.SetBool("move", false);
+            ChangeState(State.Idle);
+            return;
         }
         else
         {
@@ -135,17 +141,16 @@ public class PlayerManager : CharacterManager, IInteractable
             {
                 moveVelocity = Vector3.left;
                 transform.localScale = new Vector3(-1, 1, 1);
-                animator.SetBool("move", true);
             }
 
             else if (Input.GetAxisRaw("Horizontal") > 0)
             {
                 moveVelocity = Vector3.right;
                 transform.localScale = new Vector3(1, 1, 1);
-                animator.SetBool("move", true);
             }
         }
 
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) animator.Play("Walk");
         transform.position += moveVelocity * speed * Time.deltaTime;
     }
 
@@ -170,12 +175,12 @@ public class PlayerManager : CharacterManager, IInteractable
 
     public void Detect(Transform target)
     {
-        Debug.Log("aa");
-
         if (target != null)
         {
             rb.velocity = Vector2.zero;
-            jumpState = Jump.ground;
+            jump = Jump.ground;
+            isJump = false;
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) animator.Play("Walk");
         }
     }
 

@@ -14,7 +14,7 @@ public abstract class CharacterManager : MonoBehaviour
     [SerializeField] protected int atk;
     [SerializeField] protected int speed;
 
-    protected enum State { Idle, Chase, Attack, Killed, Move}
+    protected enum State { Idle, Chase, Attack, Killed}
     protected State state;
 
     protected IEnumerator StateMachine()
@@ -30,7 +30,6 @@ public abstract class CharacterManager : MonoBehaviour
     protected abstract IEnumerator Idle();
     protected abstract IEnumerator Chase();
     protected abstract IEnumerator Attack();
-    protected abstract IEnumerator Move();
     protected abstract IEnumerator Killed();
 
     protected void ChangeState(State newState)

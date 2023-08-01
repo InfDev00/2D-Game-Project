@@ -8,7 +8,6 @@ public class OnDetect : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.tag);
         if (collision.tag == targetTag)
         {
             this.transform.parent.gameObject.TryGetComponent(out IInteractable detect);
