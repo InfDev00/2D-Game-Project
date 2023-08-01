@@ -79,7 +79,6 @@ public class PlayerManager : CharacterManager, IInteractable
         var curAnimStateInfo = animator.GetCurrentAnimatorStateInfo(0);
         animator.Play("Attack");
         GameObject bullet = bulletPrefabs[0];
-        Debug.Log(bullet.name);
 
         bulletDelay = bullet.GetComponent<BulletManager>().bulletDelay;
         timer += Time.deltaTime;
@@ -112,11 +111,9 @@ public class PlayerManager : CharacterManager, IInteractable
                 case Jump.jumpping:
                     animator.Play("Jump",-1, 0f);
                     rb.velocity = Vector2.zero;
-                    //Vector3 teleport = new Vector3(doubleJumpPower, 0, 0);
-                    //if (transform.localScale.x < 0) this.transform.position -= teleport;
-                    //else this.transform.position += teleport;
-                    jumpVelocity = new Vector2(doubleJumpPower, doubleJumpPower);
-                    if (transform.localScale.x < 0) jumpVelocity = new Vector2(doubleJumpPower * (-1), doubleJumpPower / 2);
+                    if(Input.GetAxisRaw("Vertical")==1) jumpVelocity = new Vector2(0, doubleJumpPower*2);
+                    else if (transform.localScale.x < 0) jumpVelocity = new Vector2(doubleJumpPower * (-1), doubleJumpPower / 2);
+                    else jumpVelocity = new Vector2(doubleJumpPower, doubleJumpPower);
                     rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
                     jump = Jump.doubleJumpping;
                     isJump = false;
@@ -168,20 +165,17 @@ public class PlayerManager : CharacterManager, IInteractable
 
 	}
 
-    public void Interact()
+    public void Interact(Transform target)
     {
-
+        rb.velocity = Vector2.zero;
+        jump = Jump.ground;
+        isJump = false;
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) animator.Play("Walk");
     }
 
     public void Detect(Transform target)
     {
-        if (target != null)
-        {
-            rb.velocity = Vector2.zero;
-            jump = Jump.ground;
-            isJump = false;
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) animator.Play("Walk");
-        }
+
     }
 
 	public void Damaged(int damage)

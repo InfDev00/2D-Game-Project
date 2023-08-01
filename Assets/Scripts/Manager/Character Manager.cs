@@ -63,4 +63,13 @@ public abstract class CharacterManager : MonoBehaviour
 
     public abstract void DamageByBullet();
     public abstract void DamageToWeakPoint();
+
+    public int GetAtk() { return atk; }
+    public void AddAtk(int atk) { this.atk += atk; }
+
+    public int GetHp() { return hp; }
+    public void AddHp(int hp) { this.hp += hp;}
+
+    public int GetSpeed() { return speed; }
+    public void AddSpeed(int speed) {  this.speed += speed;}
 }

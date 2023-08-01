@@ -157,7 +157,7 @@ public class GumbaEnemy : CharacterManager, IInteractable
             StartCoroutine(HitCo());
         }
     }
-    public void Interact()
+    public void Interact(Transform target)
     {
         Debug.Log("stepon");
         StopAllCoroutines();
