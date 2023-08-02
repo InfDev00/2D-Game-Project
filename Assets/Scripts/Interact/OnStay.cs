@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OnCollider: MonoBehaviour
+public class OnStay : MonoBehaviour
 {
     public string targetTag;
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag==this.targetTag)
+        if (collision.tag == this.targetTag)
         {
             this.transform.parent.gameObject.TryGetComponent(out IInteractable interactable);
-            interactable.Interact(collision.transform);
+            interactable.Stay(collision.transform);
             //this.gameObject.SetActive(false);
         }
     }

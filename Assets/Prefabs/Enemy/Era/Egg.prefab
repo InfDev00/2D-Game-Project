@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eggSpeed: 0.01
+  damage: 2
 --- !u!212 &106402678667504648
 SpriteRenderer:
   m_ObjectHideFlags: 0

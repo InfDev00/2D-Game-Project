@@ -16,6 +16,7 @@ public class PlayerManager : CharacterManager, IInteractable
     private enum Jump { ground, jumpping, doubleJumpping };
     private Jump jump;
     private bool isJump = false;
+    private bool isKnockBack = false;
 
     private static PlayerManager instance;
 
@@ -47,7 +48,6 @@ public class PlayerManager : CharacterManager, IInteractable
 
         if (pos.x < 0f) pos.x = 0f;
         if (pos.x > 1f) pos.x = 1f;
-        if (pos.y < 0f) pos.y = 0f;
         if (pos.y > 1f) pos.y = 1f;
 
         transform.position = Camera.main.ViewportToWorldPoint(pos);
@@ -93,7 +93,9 @@ public class PlayerManager : CharacterManager, IInteractable
     }
 
 	void Move()
-    {    
+    {
+        if (isKnockBack) return;
+
         Vector2 jumpVelocity = Vector2.zero;
         if (isJump)
         {
@@ -153,24 +155,46 @@ public class PlayerManager : CharacterManager, IInteractable
 
     protected override IEnumerator Killed()
 	{
+        this.AddAtk(this.GetAtk());
+        animator.Play("Killed");
+        this.rb.AddForce(new Vector2(0, 3f), ForceMode2D.Impulse);
+        this.GetComponent<BoxCollider2D>().enabled = false;
+        this.rb.gravityScale = 2;
+
+        Destroy(this.gameObject, 5f);
         yield return null;
 	}
 
-	public override void DamageByBullet()
-	{
+    public override void Damaged(int damage)
+    {
+        this.hp -= damage;
+        rb.AddForce(new Vector2(this.transform.localScale.x * (-2f), 4f), ForceMode2D.Impulse);
+    }
 
-	}
-	public override void DamageToWeakPoint()
-	{
-
-	}
+    public IEnumerator Knockback()
+    {
+        isKnockBack = true;
+        rb.velocity = Vector2.zero;
+        rb.AddForce(new Vector2(this.transform.localScale.x * (-3), 10), ForceMode2D.Impulse);
+        yield return new WaitUntil(() => jump == Jump.ground);
+        isKnockBack = false;    
+    }
 
     public void Interact(Transform target)
     {
-        rb.velocity = Vector2.zero;
-        jump = Jump.ground;
-        isJump = false;
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) animator.Play("Walk");
+        switch(target.tag)
+        {
+            case "Ground":
+                rb.velocity = Vector2.zero;
+                jump = Jump.ground;
+                isJump = false;
+                if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) animator.Play("Walk");
+                break;
+            case "Enemy":
+                StartCoroutine(Knockback());
+                target.gameObject.GetComponent<CharacterManager>().Damaged(this.atk);
+                break;
+        }
     }
 
     public void Detect(Transform target)
@@ -178,10 +202,9 @@ public class PlayerManager : CharacterManager, IInteractable
 
     }
 
-	public void Damaged(int damage)
-	{
-		this.hp -= damage;
-        rb.AddForce(new Vector2(this.transform.localScale.x * (-2f), 4f), ForceMode2D.Impulse);
+    public void Stay(Transform target)
+    {
+
     }
 
 	public int GetHP() { return this.hp; }
