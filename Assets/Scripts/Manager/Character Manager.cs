@@ -14,7 +14,9 @@ public abstract class CharacterManager : MonoBehaviour
     [SerializeField] protected int atk;
     [SerializeField] protected int speed;
 
-    protected enum State { Idle, Chase, Attack, Killed, Move }
+
+    protected enum State { Idle, Chase, Attack, Killed}
+
     protected State state;
 
     protected IEnumerator StateMachine()
@@ -61,6 +63,15 @@ public abstract class CharacterManager : MonoBehaviour
         return (int)distance;
     }
 
-    public abstract void DamageByBulet();
+    public abstract void DamageByBullet();
     public abstract void DamageToWeakPoint();
+
+    public int GetAtk() { return atk; }
+    public void AddAtk(int atk) { this.atk += atk; }
+
+    public int GetHp() { return hp; }
+    public void AddHp(int hp) { this.hp += hp;}
+
+    public int GetSpeed() { return speed; }
+    public void AddSpeed(int speed) {  this.speed += speed;}
 }

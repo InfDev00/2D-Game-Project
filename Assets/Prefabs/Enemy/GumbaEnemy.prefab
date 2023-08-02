@@ -196,9 +196,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rayPoint: {fileID: 7744384234767802195}
+  maxHP: 0
   hp: 2
   atk: 0
-  speed: 3
+  speed: 1
   range: 0
   dashSpd: 0
   enemyType: 0

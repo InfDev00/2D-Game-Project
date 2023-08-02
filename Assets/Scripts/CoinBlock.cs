@@ -15,7 +15,7 @@ public class CoinBlock : MonoBehaviour, IInteractable
         GetComponentsInChildren<SpriteRenderer>()[1].sprite = spawnCoin;
     }
 
-    public void Interact()
+    public void Interact(Transform target)
     {
         if (coinCount > 0)
         {
@@ -42,5 +42,10 @@ public class CoinBlock : MonoBehaviour, IInteractable
     void Update()
     {
         
+    }
+
+    public void Detect(Transform target)
+    {
+
     }
 }

@@ -12,8 +12,8 @@ public class SoundAttack : MonoBehaviour
     void Awake()
     {
         this.sounds = GetComponentsInChildren<Transform>();
-        
-        for(int i = 1;i<sounds.Length;++i) sounds[i].gameObject.SetActive(false);
+
+        for (int i = 1; i < sounds.Length; ++i) sounds[i].gameObject.SetActive(false);
 
         StartCoroutine(Sound());
     }
@@ -30,18 +30,7 @@ public class SoundAttack : MonoBehaviour
 
         for (int i = 1; i < sounds.Length; ++i)
         {
-            sounds[i].gameObject.SetActive(false);
-            yield return new WaitForSeconds(soundDelay);
-        }
 
-        Destroy(this.gameObject);
+            Destroy(this.gameObject);
+        }}
     }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            PlayerManager.Instance.Damaged(damage);
-        }
-    }
-}

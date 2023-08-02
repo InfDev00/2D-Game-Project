@@ -4,129 +4,44 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : CharacterManager, IInteractable
 {
-
-	[Header("PlayerInfo")]
-	public float movePower = 1f;
-	public float jumpPower = 1f;
-	public float doubleJumpPower = 1f;
-	public int MaxHP = 10;
-	private int HP = 10;
+    [SerializeField] protected int jumpPower;
+    [SerializeField] protected int doubleJumpPower;
 	private float timer = 0f;
 	private float bulletDelay;
 
 	private GameObject[] bulletPrefabs = new GameObject[3];
-	private GameObject firePrefab;
-	private GameObject waterPrefab;
-	private GameObject thunderPrefab;
 
-	private Rigidbody2D rigid;
-	private Animator animator;
-	private BoxCollider2D boxCollider;
+    private enum Jump { ground, jumpping, doubleJumpping };
+    private Jump jump;
+    private bool isJump = false;
 
-	private GameObject playerImg;
-	private GameObject transformImg;
-
-	private bool isJump = false;
-	private bool isDoubleJumpOrigin = false;
-	private bool isAttackOrigin = false;
-	private bool isOriginToTransform = false;
-
-	private bool isAttackTransform = false;
-	private bool isTransformToOrigin = false;
-
-	private enum mode { origin = 0, transform};
-	private mode currentMode;
-	private enum bulletID { fire = 0, water };
-	private bulletID currentbullet;
-
-	private static PlayerManager instance;
+    private static PlayerManager instance;
 
 	void Awake()
 	{
 		if (instance == null) instance = this;
 
-		this.HP = MaxHP;
-		rigid = gameObject.GetComponent<Rigidbody2D>();
-		playerImg = transform.Find("PlayerImg").gameObject;
-		transformImg = transform.Find("TransformImg").gameObject;
-		animator = playerImg.GetComponent<Animator>();
-		boxCollider = GetComponent<BoxCollider2D>();
-		currentMode = mode.origin;
-		currentbullet = bulletID.fire;
+		this.hp = maxHP;
+		rb = gameObject.GetComponent<Rigidbody2D>();
+		animator = this.GetComponent<Animator>();
+        this.jump = Jump.ground;
+        ChangeState(State.Idle);
 
 		bulletPrefabs[0] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Fire.prefab", typeof(GameObject));
         bulletPrefabs[1] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Water.prefab", typeof(GameObject));
         bulletPrefabs[2] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Thunder.prefab", typeof(GameObject));
 
-
-		transformImg.SetActive(false);
+		StartCoroutine(this.StateMachine());
 	}
 
-	void Update()
-	{
-		if (Input.GetButtonDown("Jump"))
-		{
-			switch(currentMode)
-			{
-				case mode.origin:
-					if (!animator.GetBool("isJumping"))
-					{
-						isJump = true;
-						animator.SetTrigger("doJumping");
-						animator.SetBool("isJumping", true);
-					}
+    void Update()
+    {
+        timer += Time.deltaTime;
+        if (Input.GetButtonDown("Jump")) isJump = true;
 
-					else if (!animator.GetBool("isTeleport"))
-					{
-						isDoubleJumpOrigin = true;
-						animator.SetTrigger("doTeleport");
-						animator.SetBool("isTeleport", true);
-					}
-					break;
-				case mode.transform:
-					isJump = true;
-					animator.SetBool("isFloating", true);
-					break;
-            }
-		}
-
-		if (Input.GetButton("Fire1"))
-		{
-            switch (currentMode)
-            {
-                case mode.origin:
-                    isAttackOrigin = true;
-                    animator.SetTrigger("attack");
-                    break;
-                case mode.transform:
-					isAttackTransform = true;
-                    break;
-            }
-        }
-		else if (Input.GetButtonDown("Fire2"))
-		{
-            switch (currentMode)
-            {
-                case mode.origin:
-                    isOriginToTransform = true;
-                    break;
-                case mode.transform:
-					isTransformToOrigin = true;
-                    break;
-            }
-        }
-		else if (Input.GetButtonDown("Fire3"))
-		{
-			switch (currentMode)
-			{
-				case mode.origin:
-					if(currentbullet == bulletID.fire)currentbullet = bulletID.water;
-					else currentbullet = bulletID.fire;
-				break;
-			}
-		}
+        if (Input.GetButtonDown("Fire1")) ChangeState(State.Attack);
 
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
 
@@ -138,183 +53,138 @@ public class PlayerManager : MonoBehaviour
         transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
 
-	void FixedUpdate()
-	{
-		Move();
-        Jump();
-        Transform();
-        switch (currentMode)
-		{
-			case mode.origin:
-                DoubleJumpOrigin();
-                AttackOrigin();
-				break;
-			case mode.transform:
-				AttackTransform();
-                break;
-        }
-	}
-
-	void Move()
-	{
-		if (!isAttackOrigin ||animator.GetBool("isJumping"))
-		{
-			Vector3 moveVelocity = Vector3.zero;
-			float horizontal = Input.GetAxisRaw("Horizontal");
-
-			if (horizontal == 0)
-			{
-				animator.SetBool("move", false);
-			}
-			else
-			{
-				if (Input.GetAxisRaw("Horizontal") < 0)
-				{
-					moveVelocity = Vector3.left;
-					transform.localScale = new Vector3(-1, 1, 1);
-					animator.SetBool("move", true);
-				}
-
-				else if (Input.GetAxisRaw("Horizontal") > 0)
-				{
-					moveVelocity = Vector3.right;
-					transform.localScale = new Vector3(1, 1, 1);
-					animator.SetBool("move", true);
-				}
-			}
-
-
-			transform.position += moveVelocity * movePower * Time.deltaTime;
-		}
-	}
-
-	void Jump()
-	{
-		if (isJump)
-		{
-			rigid.velocity = Vector2.zero;
-			Vector2 jumpVelocity = new Vector2(0, jumpPower);
-			rigid.AddForce(jumpVelocity, ForceMode2D.Impulse);
-
-			isJump = false;
-		}
-	}
-
-	void DoubleJumpOrigin()
-	{
-		if (isDoubleJumpOrigin)
-		{
-			rigid.velocity = Vector2.zero;
-
-			//[editable start]
-			//Vector3 teleport = new Vector3(doubleJumpPower, 0, 0);
-			//if (transform.localScale.x < 0) this.transform.position -= teleport;
-			//else this.transform.position += teleport;
-			Vector2 jumpVelocity = new Vector2(doubleJumpPower, doubleJumpPower / 2);
-			if (transform.localScale.x < 0) jumpVelocity = new Vector2(doubleJumpPower * (-1), doubleJumpPower / 2);
-			rigid.AddForce(jumpVelocity, ForceMode2D.Impulse);
-
-			//[editable end]
-
-			isDoubleJumpOrigin = false;
-		}
-	}
-
-	void AttackOrigin()
-	{
-		GameObject bullet = bulletPrefabs[(int)currentbullet];
-		bulletDelay = bullet.GetComponent<BulletManager>().bulletDelay;
-		timer += Time.deltaTime;
-		if (isAttackOrigin)
-		{
-			if (timer > bulletDelay)
-			{
-				Instantiate(bullet, this.transform.position + new Vector3(this.transform.localScale.x*0.7f, 0, 0), this.transform.rotation);
-				timer = 0;
-			}
-			isAttackOrigin = false;
-		}
-	}
-
-    void AttackTransform()
+    void FixedUpdate()
     {
-        bulletDelay = bulletPrefabs[2].GetComponent<BulletManager>().bulletDelay;
-        timer += Time.deltaTime;
-        if (isAttackTransform)
-        {
-            if (timer > bulletDelay)
-            {
-				Instantiate(bulletPrefabs[2], this.transform.position + new Vector3(this.transform.localScale.x, 0, 0), this.transform.rotation);
-                timer = 0;
-            }
-            isAttackTransform = false;
-        }
+        Move();
     }
 
-    void Transform()
+    protected override IEnumerator Idle()
 	{
-		if (isOriginToTransform)
-		{
-			transformImg.SetActive(true);
-			playerImg.SetActive(false);
-			isOriginToTransform = false;
-			animator = transformImg.GetComponent<Animator>();
-			rigid.gravityScale = 0.25f;
-			boxCollider.size = new Vector2(0.7f, 0.7f);
-			this.jumpPower /= 6;
-			this.movePower /= 2;
-			currentMode = mode.transform;
+        if (Input.GetButtonDown("Jump") || Input.GetButton("Horizontal"))
+        {
+            yield break;
         }
 
-		else if (isTransformToOrigin)
-		{
-            transformImg.SetActive(false);
-            playerImg.SetActive(true);
-            isTransformToOrigin = false;
-            animator = playerImg.GetComponent<Animator>();
-            rigid.gravityScale = 3.5f;
-            boxCollider.size = new Vector2(0.7f, 1f);
-            this.jumpPower *= 6;
-            this.movePower *= 2;
-            currentMode = mode.origin;
-
-			transformImg.transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
+        if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) animator.Play("Idle");
+        yield break;
 	}
 
-	void OnTriggerStay2D(Collider2D collision)
+    protected override IEnumerator Chase()
 	{
-		if(collision.tag == "Ground")
-		{
-            rigid.velocity = Vector2.zero;
-            switch (currentMode)
+		yield return null;
+    }
+
+    protected override IEnumerator Attack()
+	{
+        var curAnimStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        animator.Play("Attack");
+        GameObject bullet = bulletPrefabs[0];
+
+        bulletDelay = bullet.GetComponent<BulletManager>().bulletDelay;
+        timer += Time.deltaTime;
+        if (timer > bulletDelay)
+        {
+            Instantiate(bullet, this.transform.position + new Vector3(this.transform.localScale.x * 0.7f, 0, 0), this.transform.rotation);
+            timer = 0;
+        }
+
+        ChangeState(State.Idle);
+        yield return new WaitForSeconds(curAnimStateInfo.length *2f);
+    }
+
+	void Move()
+    {    
+        Vector2 jumpVelocity = Vector2.zero;
+        if (isJump)
+        {
+            switch (jump)
             {
-                case mode.origin:
-                    animator.SetBool("isJumping", false);
-                    animator.SetBool("isTeleport", false);
+                case Jump.ground:
+                    animator.Play("Jump", -1, 0f);
+                    rb.velocity = Vector2.zero;
+                    jumpVelocity = new Vector2(0, jumpPower);
+                    rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
+                    jump = Jump.jumpping;
+                    isJump = false;
                     break;
-                case mode.transform:
-                    animator.SetBool("isFloating", false);
+
+                case Jump.jumpping:
+                    animator.Play("Jump",-1, 0f);
+                    rb.velocity = Vector2.zero;
+                    if(Input.GetAxisRaw("Vertical")==1) jumpVelocity = new Vector2(0, doubleJumpPower*2);
+                    else if (transform.localScale.x < 0) jumpVelocity = new Vector2(doubleJumpPower * (-1), doubleJumpPower / 2);
+                    else jumpVelocity = new Vector2(doubleJumpPower, doubleJumpPower);
+                    rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
+                    jump = Jump.doubleJumpping;
+                    isJump = false;
+                    break;
+
+                case Jump.doubleJumpping:
                     break;
             }
         }
+
+        Vector3 moveVelocity = Vector3.zero;
+        float horizontal = Input.GetAxisRaw("Horizontal");
+
+        if (horizontal == 0 && !animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+        {
+            ChangeState(State.Idle);
+            return;
+        }
+        else
+        {
+            if (Input.GetAxisRaw("Horizontal") < 0)
+            {
+                moveVelocity = Vector3.left;
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+
+            else if (Input.GetAxisRaw("Horizontal") > 0)
+            {
+                moveVelocity = Vector3.right;
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
+
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) animator.Play("Walk");
+        transform.position += moveVelocity * speed * Time.deltaTime;
+    }
+
+    protected override IEnumerator Killed()
+	{
+        yield return null;
 	}
+
+	public override void DamageByBullet()
+	{
+
+	}
+	public override void DamageToWeakPoint()
+	{
+
+	}
+
+    public void Interact(Transform target)
+    {
+        rb.velocity = Vector2.zero;
+        jump = Jump.ground;
+        isJump = false;
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) animator.Play("Walk");
+    }
+
+    public void Detect(Transform target)
+    {
+
+    }
 
 	public void Damaged(int damage)
 	{
-		this.HP -= damage;
-
-        switch (currentMode)
-        {
-            case mode.origin:
-                rigid.AddForce(new Vector2(this.transform.localScale.x * (-2f), 4f), ForceMode2D.Impulse);
-                break;
-            case mode.transform:
-                break;
-        }
+		this.hp -= damage;
+        rb.AddForce(new Vector2(this.transform.localScale.x * (-2f), 4f), ForceMode2D.Impulse);
     }
 
-	public int GetHP() { return this.HP; }
+	public int GetHP() { return this.hp; }
 
     public static PlayerManager Instance
 	{

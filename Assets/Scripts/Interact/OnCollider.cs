@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class OnCollider: MonoBehaviour
 {
-    
-    private void OnCollisionEnter2D(Collision2D collision)
+    public string tag;
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag=="Player")
+        if (collision.tag==this.tag)
         {
             this.transform.parent.gameObject.TryGetComponent(out IInteractable interactable);
-            interactable.Interact();
+            interactable.Interact(collision.transform);
             //this.gameObject.SetActive(false);
         }
     }

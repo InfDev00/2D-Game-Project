@@ -173,7 +173,7 @@ public class MaxBot : CharacterManager, IInteractable
             StartCoroutine(HitCo());
         }
     }
-    public void Interact()
+    public void Interact(Transform target)
     {
         Debug.Log("stepon");
         StopAllCoroutines();
@@ -184,7 +184,12 @@ public class MaxBot : CharacterManager, IInteractable
         StartCoroutine(DieCo());
     }
 
-    public override void DamageByBulet()
+    public void Detect(Transform target)
+    {
+
+    }
+
+    public override void DamageByBullet()
     {
         //dosomething
         //적의 종류마다 bullet에 맞았을 때 다른 효과가 일어나게
