@@ -148,8 +148,8 @@ public class PlayerManager : CharacterManager, IInteractable
                 transform.localScale = new Vector3(1, 1, 1);
             }
         }
-
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) animator.Play("Walk");
+        var curAnimStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (curAnimStateInfo.IsName("Idle")||(curAnimStateInfo.IsName("Attack")&&curAnimStateInfo.normalizedTime >=1f)) animator.Play("Walk");
         transform.position += moveVelocity * speed * Time.deltaTime;
     }
 

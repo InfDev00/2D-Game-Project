@@ -62,14 +62,21 @@ public class EraManager : CharacterManager, IInteractable
 
     protected override IEnumerator Killed()
     {
-        this.animator.Play("EraKilled");
-        this.rb.AddForce(new Vector2(0, 5f), ForceMode2D.Impulse);
+        this.transform.rotation = Quaternion.Euler(0, 0, 180);
+
+        this.rb.AddForce(new Vector2(0, 10f), ForceMode2D.Impulse);
         this.GetComponent<BoxCollider2D>().enabled = false;
         this.rb.gravityScale = 2;
 
-        Destroy(this.gameObject, 1f);
-        yield break;
+        yield return null;
     }
+
+
+    void OnBecameInvisible()
+    {
+        Destroy(this.gameObject);
+    }
+
     protected override IEnumerator Chase()
     {
         if (target == null)

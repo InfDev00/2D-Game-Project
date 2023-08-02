@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : Item
+public class Coin : ItemManager
 {
     public int coinValue = 1;
     protected override void Action(GameObject player)
