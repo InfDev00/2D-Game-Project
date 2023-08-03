@@ -17,7 +17,7 @@ abstract public class ItemManager : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            this.Action(collision.gameObject);
+            this.Action(collision.transform.Find("Buff").gameObject);
         }
     }
 

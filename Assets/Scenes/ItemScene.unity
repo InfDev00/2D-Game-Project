@@ -961,8 +961,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 664749108}
-  - component: {fileID: 664749107}
   - component: {fileID: 664749111}
+  - component: {fileID: 664749107}
   - component: {fileID: 664749106}
   - component: {fileID: 664749110}
   - component: {fileID: 664749109}
@@ -1145,7 +1145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fac1bb0b67ebe0640b81468ef24c7040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
+  heal: 4
 --- !u!1 &799061372
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,6 +1155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 799061375}
+  - component: {fileID: 799061378}
   - component: {fileID: 799061374}
   - component: {fileID: 799061373}
   - component: {fileID: 799061377}
@@ -1247,7 +1248,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 799061372}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.3059254, y: 0.106547475, z: 0}
+  m_LocalPosition: {x: -2.7, y: 0.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1326,6 +1327,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.9}
   m_EdgeRadius: 0
+--- !u!114 &799061378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799061372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a20171f8399889542a168a0fc74c843b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpPower: 10
+  buffTime: 5
 --- !u!1 &804544594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1529,6 +1544,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &855770153
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 855770154}
+  - component: {fileID: 855770155}
+  m_Layer: 0
+  m_Name: Buff
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &855770154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855770153}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 912862122}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &855770155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855770153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e381a3f9d9d70743b2cc7e524d05e5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &912862122 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8672026635547005252, guid: 120de07e245560142b0d0721ca232040, type: 3}
+  m_PrefabInstance: {fileID: 2023824117}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1010756995
 GameObject:
   m_ObjectHideFlags: 0
@@ -1895,6 +1959,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1290013018}
+  - component: {fileID: 1290013021}
   - component: {fileID: 1290013017}
   - component: {fileID: 1290013016}
   - component: {fileID: 1290013020}
@@ -2066,6 +2131,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.9}
   m_EdgeRadius: 0
+--- !u!114 &1290013021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290013015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07dbc38ea0b646c448c962f497fd6c0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffTime: 10
 --- !u!1 &1847735863
 GameObject:
   m_ObjectHideFlags: 0
@@ -2456,7 +2534,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8672026635547005252, guid: 120de07e245560142b0d0721ca232040, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 855770154}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 120de07e245560142b0d0721ca232040, type: 3}
 --- !u!1 &2081072394

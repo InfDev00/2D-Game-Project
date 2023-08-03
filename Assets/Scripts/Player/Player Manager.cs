@@ -18,6 +18,7 @@ public class PlayerManager : CharacterManager, IInteractable
     private bool isJump = false;
     private bool isKnockBack = false;
 
+
     private static PlayerManager instance;
 
 	void Awake()
@@ -76,6 +77,7 @@ public class PlayerManager : CharacterManager, IInteractable
 
     protected override IEnumerator Attack()
 	{
+        this.gameObject.tag = "Player";
         var curAnimStateInfo = animator.GetCurrentAnimatorStateInfo(0);
         animator.Play("Attack");
         GameObject bullet = bulletPrefabs[0];
@@ -95,6 +97,7 @@ public class PlayerManager : CharacterManager, IInteractable
 	void Move()
     {
         if (isKnockBack) return;
+        if (hp < 0) return;
 
         Vector2 jumpVelocity = Vector2.zero;
         if (isJump)
@@ -173,6 +176,7 @@ public class PlayerManager : CharacterManager, IInteractable
 
     public IEnumerator Knockback()
     {
+        this.gameObject.tag = "Player";
         isKnockBack = true;
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(this.transform.localScale.x * (-3), 10), ForceMode2D.Impulse);
@@ -207,7 +211,8 @@ public class PlayerManager : CharacterManager, IInteractable
 
     }
 
-	public int GetHP() { return this.hp; }
+    public int GetJumpPower() { return this.jumpPower; }
+    public void AddJumpPower(int power) { this.jumpPower += power; }
 
     public static PlayerManager Instance
 	{
