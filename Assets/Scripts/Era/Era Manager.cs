@@ -68,12 +68,8 @@ public class EraManager : CharacterManager, IInteractable
         this.GetComponent<BoxCollider2D>().enabled = false;
         this.rb.gravityScale = 2;
 
-        yield return null;
-    }
-
-
-    void OnBecameInvisible()
-    {
+        GameManager.Instance.AddDeathCount();
+        yield return new WaitForSeconds(2f);
         Destroy(this.gameObject);
     }
 

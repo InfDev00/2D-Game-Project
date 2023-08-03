@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     private int coins;
     private int life;
+    private int deathCount;
 
     private static GameManager instance;
 
@@ -26,6 +27,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
+
     public void AddCoins(int coins) { this.coins += coins; }
     public int GetCoins() { return this.coins; }
 
@@ -36,4 +40,7 @@ public class GameManager : MonoBehaviour
     {
         get { return instance; }
     }
+
+    public int GetDeathCount() { return this.deathCount; }
+    public void AddDeathCount() { this.deathCount += 1; }
 }
