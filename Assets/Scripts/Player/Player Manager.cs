@@ -77,7 +77,6 @@ public class PlayerManager : CharacterManager, IInteractable
 
     protected override IEnumerator Attack()
 	{
-        this.gameObject.tag = "Player";
         var curAnimStateInfo = animator.GetCurrentAnimatorStateInfo(0);
         animator.Play("Attack");
         GameObject bullet = bulletPrefabs[0];
@@ -176,7 +175,6 @@ public class PlayerManager : CharacterManager, IInteractable
 
     public IEnumerator Knockback()
     {
-        this.gameObject.tag = "Player";
         isKnockBack = true;
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(this.transform.localScale.x * (-3), 10), ForceMode2D.Impulse);

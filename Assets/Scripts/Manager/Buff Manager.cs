@@ -32,12 +32,14 @@ public class BuffManager : MonoBehaviour
     {
         float timer = 0;
         player.tag = "Untagged";
+        player.GetComponent<SpriteRenderer>().material.color = HexColor("#747474");
         while (timer < time)
         {
             timer += tic;
             yield return new WaitForSeconds(tic);
         }
         player.tag = "Player";
+        player.GetComponent<SpriteRenderer>().material.color = HexColor("#FFFFFF");
         yield return null;
     }
 
@@ -69,5 +71,17 @@ public class BuffManager : MonoBehaviour
                 StartCoroutine(Stealth(time));
                 break;
         }
+    }
+
+    public static Color HexColor(string hexCode)
+    {
+        Color color;
+        if (ColorUtility.TryParseHtmlString(hexCode, out color))
+        {
+            return color;
+        }
+
+        Debug.LogError("[UnityExtension::HexColor]invalid hex code - " + hexCode);
+        return Color.white;
     }
 }
