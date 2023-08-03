@@ -9,8 +9,8 @@ public class MaxBot : CharacterManager, IInteractable
     private int xScale = 1;
     [SerializeField] private int range;
     [SerializeField] private int dashSpd;
-    //[SerializeField] private int runSpd;
     [SerializeField] GroundEnemy enemyType;
+    [SerializeField] Transform rayPoint;
     Vector3 hitDir;
     Vector3 dashDir;
     
@@ -42,11 +42,11 @@ public class MaxBot : CharacterManager, IInteractable
         }
 
         //여기서 checkplayer 하고 적 종류에 따라 다른 공격패턴 구현?
-        if (DistanceToPlayer() < range)
-        {
-            Debug.Log("Detect");
-            ChangeState(State.Chase);
-        }
+        //if (DistanceToPlayer() < range)
+        //{
+        //    Debug.Log("Detect");
+        //    ChangeState(State.Chase);
+        //}
     }
 
     protected override IEnumerator Chase()
@@ -186,7 +186,8 @@ public class MaxBot : CharacterManager, IInteractable
 
     public void Detect(Transform target)
     {
-
+        Debug.Log("Detect");
+        state = State.Chase;
     }
 
     public override void DamageByBullet()
@@ -201,5 +202,16 @@ public class MaxBot : CharacterManager, IInteractable
         Debug.Log($"{this.name} Died.");
     }
 
-   
+    bool CheckGround()
+    {
+
+        Debug.DrawRay(rayPoint.transform.position, Vector3.down, Color.blue);
+        if (Physics2D.Raycast(rayPoint.transform.position, Vector3.down, 5))
+        {
+            return true;
+        }
+        else return false;
+
+    }
+
 }

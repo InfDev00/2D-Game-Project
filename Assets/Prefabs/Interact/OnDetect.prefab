@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTag: Ground
+  enterOnly: 1
 --- !u!50 &4692691855035079188
 Rigidbody2D:
   serializedVersion: 4
