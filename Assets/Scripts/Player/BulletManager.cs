@@ -6,7 +6,7 @@ public class BulletManager : MonoBehaviour
 {
     public float bulletSpeed = 0.02f;
     public float bulletDelay = 0.1f;
-    public int bulletDamage = 3;
+    public int damage = 3;
     private Vector3 direction;
 
     void Awake()
@@ -26,10 +26,11 @@ public class BulletManager : MonoBehaviour
         transform.Translate(direction * bulletSpeed);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.tag == "Enemy")
         {
+            collision.gameObject.GetComponent<CharacterManager>().Damaged(damage);
             Destroy(this.gameObject);
         }
     }

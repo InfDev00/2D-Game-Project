@@ -21,6 +21,6 @@ public class UIManager : MonoBehaviour
     {
         lifeText.text = $"{GameManager.Instance.GetLife()}";
         coinText.text = $"{GameManager.Instance.GetCoins()}";
-        HPSlider.value = PlayerManager.Instance.GetHP();
+        HPSlider.value = PlayerManager.Instance.GetHp();
     }
 }

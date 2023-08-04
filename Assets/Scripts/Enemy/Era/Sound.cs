@@ -6,8 +6,7 @@ public class SoundAttack : MonoBehaviour
 {
     private Transform[] sounds;
     public float soundDelay = 0.2f;
-    public int damage;
-
+    private int damage;
 
     void Awake()
     {
@@ -32,5 +31,16 @@ public class SoundAttack : MonoBehaviour
         {
 
             Destroy(this.gameObject);
-        }}
+        }
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            collision.gameObject.GetComponent<CharacterManager>().Damaged(this.damage);
+        }
+    }
+
+    public void SetDamage(int damage) { this.damage = damage; }
+}

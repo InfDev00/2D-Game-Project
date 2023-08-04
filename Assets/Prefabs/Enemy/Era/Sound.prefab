@@ -177,7 +177,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6344419143441738372}
-  - component: {fileID: 2763489563684068567}
+  - component: {fileID: 5649403363382856800}
   - component: {fileID: 8870465023322345740}
   m_Layer: 0
   m_Name: Sound
@@ -205,7 +205,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2763489563684068567
+--- !u!114 &5649403363382856800
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,8 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b3214d28586b94d8e19b933bae17fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundDelay: 0.2
-  damage: 0
+  soundDelay: 0.1
 --- !u!60 &8870465023322345740
 PolygonCollider2D:
   m_ObjectHideFlags: 0

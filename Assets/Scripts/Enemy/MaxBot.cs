@@ -131,8 +131,8 @@ public class MaxBot : CharacterManager, IInteractable
         //yield return Move();
         ChangeState (State.Idle);
     }
-    
-    
+
+
     void SeePlayer()
     {
         dashDir = playerManager.transform.position - this.transform.position;
@@ -168,7 +168,10 @@ public class MaxBot : CharacterManager, IInteractable
     {
         hitDir = this.transform.position - collision.transform.position;
 
-        if (collision.gameObject.tag=="Bullet")
+        if 
+   
+
+    (collision.gameObject.tag=="Bullet")
         {
             StartCoroutine(HitCo());
         }
@@ -190,17 +193,12 @@ public class MaxBot : CharacterManager, IInteractable
         state = State.Chase;
     }
 
-    public override void DamageByBullet()
+
+    public override void Damaged(int damage)
     {
-        //dosomething
-        //적의 종류마다 bullet에 맞았을 때 다른 효과가 일어나게
+
     }
 
-    public override void DamageToWeakPoint()
-    {
-        //여기에 애니메이션이나 효과 추가
-        Debug.Log($"{this.name} Died.");
-    }
 
     bool CheckGround()
     {
@@ -212,6 +210,11 @@ public class MaxBot : CharacterManager, IInteractable
         }
         else return false;
 
+    }
+
+    public void Stay(Transform target)
+    {
+        throw new System.NotImplementedException();
     }
 
 }

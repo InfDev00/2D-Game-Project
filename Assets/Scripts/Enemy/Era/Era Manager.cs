@@ -62,14 +62,17 @@ public class EraManager : CharacterManager, IInteractable
 
     protected override IEnumerator Killed()
     {
-        this.animator.Play("EraKilled");
-        this.rb.AddForce(new Vector2(0, 5f), ForceMode2D.Impulse);
+        this.transform.rotation = Quaternion.Euler(0, 0, 180);
+
+        this.rb.AddForce(new Vector2(0, 10f), ForceMode2D.Impulse);
         this.GetComponent<BoxCollider2D>().enabled = false;
         this.rb.gravityScale = 2;
 
-        Destroy(this.gameObject, 1f);
-        yield break;
+        GameManager.Instance.AddDeathCount();
+        yield return new WaitForSeconds(2f);
+        Destroy(this.gameObject);
     }
+
     protected override IEnumerator Chase()
     {
         if (target == null)
@@ -133,7 +136,8 @@ public class EraManager : CharacterManager, IInteractable
             case mode.normal:
                 if (eggTimer > eggDelay)
                 {
-                    Instantiate(EggPrefab, this.transform.position + new Vector3(0, -0.5f, 0), this.transform.rotation);
+                    var egg = Instantiate(EggPrefab, this.transform.position + new Vector3(0, -0.5f, 0), this.transform.rotation);
+                    egg.GetComponent<Egg>().SetDamage(this.atk);
                     eggTimer = 0;
                 }
                 break;
@@ -142,7 +146,8 @@ public class EraManager : CharacterManager, IInteractable
                 if (eggTimer > eggDelay)
                 {
                     float dir = transform.localScale.x > 0 ? 1 : 0;
-                    Instantiate(SoundPrefab, this.transform.position + new Vector3(this.transform.localScale.x * (-1f), 0, 0), Quaternion.Euler(0, 180f * dir, 0));
+                    var sound = Instantiate(SoundPrefab, this.transform.position + new Vector3(this.transform.localScale.x * (-1f), 0, 0), Quaternion.Euler(0, 180f * dir, 0));
+                    sound.GetComponent<SoundAttack>().SetDamage(this.atk);
                     eggTimer = 0;
                 }
                 break;
@@ -164,7 +169,7 @@ public class EraManager : CharacterManager, IInteractable
                 break;
             case mode.angry:
                 if (transform.position.x - attackRange < target.position.x && target.position.x < transform.position.x + attackRange &&
-                    transform.position.y - 1f < target.position.y && target.position.y < transform.position.y + 1f)
+                    transform.position.y - 0.5f < target.position.y && target.position.y < transform.position.y + 0.5f)
                 {
                     return true;
                 }
@@ -186,16 +191,15 @@ public class EraManager : CharacterManager, IInteractable
 
         targetRb.velocity = Vector2.zero;
         targetRb.AddForce(new Vector2(target.localScale.x * (-7), 7), ForceMode2D.Impulse);
-        int damage = target.GetComponent<PlayerManager>().GetAtk();
+
+    }
+    public void Stay(Transform target)
+    {
+
+    }
+
+    public override void Damaged(int damage)
+    {
         this.hp -= damage;
-    }
-
-    public override void DamageByBullet()
-    {
-
-    }
-    public override void DamageToWeakPoint()
-    {
-
     }
 }

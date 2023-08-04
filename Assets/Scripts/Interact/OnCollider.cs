@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class OnCollider: MonoBehaviour
 {
-    public string tag;
+    public string targetTag;
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag==this.tag)
+        if (collision.tag==this.targetTag)
         {
             this.transform.parent.gameObject.TryGetComponent(out IInteractable interactable);
             interactable.Interact(collision.transform);

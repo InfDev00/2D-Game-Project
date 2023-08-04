@@ -7,7 +7,7 @@ public abstract class CharacterManager : MonoBehaviour
     protected PlayerManager playerManager = PlayerManager.Instance;
     protected Rigidbody2D rb;
     protected Animator animator;
-    protected bool isGround;
+
     [SerializeField] protected int maxHP;
     [SerializeField] protected int hp;
     [SerializeField] protected int atk;
@@ -37,33 +37,14 @@ public abstract class CharacterManager : MonoBehaviour
     {
         state = newState;
     }
-        
 
         public void DealDamage()
     {
         //playerManager.
     }
 
-    //public bool CheckGround()
-    //{
 
-    //    Debug.DrawRay(rayPoint.transform.position,Vector3.down, Color.blue);
-    //    if (Physics2D.Raycast(rayPoint.transform.position, Vector3.down, 5))
-    //    {
-    //        return true;
-    //    }
-    //    else return false;
-
-    //}
-
-    //public int DistanceToPlayer()
-    //{
-    //    float distance = Vector3.Distance(this.transform.position, playerManager.transform.position);
-    //    return (int)distance;
-    //}
-
-    public abstract void DamageByBullet();
-    public abstract void DamageToWeakPoint();
+    public abstract void Damaged(int damage);
 
     public int GetAtk() { return atk; }
     public void AddAtk(int atk) { this.atk += atk; }
