@@ -23,7 +23,7 @@ public class OnDetect : MonoBehaviour
             detect.Detect(collision.transform);
         }
 
-        if (collision.tag == "Stealth" && targetTag == "Player")
+        if(collision.tag == "Stealth" && targetTag == "Player")
         {
             this.transform.parent.gameObject.TryGetComponent(out IInteractable detect);
             detect.Detect(null);
