@@ -10,7 +10,7 @@ public class OnDetect : MonoBehaviour
     {
         if (collision.tag == targetTag)
         {
-            this.transform.parent.gameObject.TryGetComponent(out IInteractable detect);
+            this.transform.parent.gameObject.TryGetComponent(out IDetectable detect);
             detect.Detect(null);
         }
     }
@@ -19,13 +19,13 @@ public class OnDetect : MonoBehaviour
     {
         if (collision.tag == targetTag)
         {
-            this.transform.parent.gameObject.TryGetComponent(out IInteractable detect);
+            this.transform.parent.gameObject.TryGetComponent(out IDetectable detect);
             detect.Detect(collision.transform);
         }
 
         if(collision.tag == "Stealth" && targetTag == "Player")
         {
-            this.transform.parent.gameObject.TryGetComponent(out IInteractable detect);
+            this.transform.parent.gameObject.TryGetComponent(out IDetectable detect);
             detect.Detect(null);
         }
     }
