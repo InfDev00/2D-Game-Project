@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class EraManager : CharacterManager, IInteractable
+public class EraManager : CharacterManager, IInteractable, IDetectable
 { 
     public float attackRange = 1f;
     private float eggTimer;
@@ -191,10 +191,6 @@ public class EraManager : CharacterManager, IInteractable
 
         targetRb.velocity = Vector2.zero;
         targetRb.AddForce(new Vector2(target.localScale.x * (-7), 7), ForceMode2D.Impulse);
-
-    }
-    public void Stay(Transform target)
-    {
 
     }
 

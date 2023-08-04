@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Door : MonoBehaviour, IInteractable
+public class Door : MonoBehaviour, IInteractable, IDetectable
 {
     private Animator animator;
     public string SceneName;
@@ -28,10 +28,5 @@ public class Door : MonoBehaviour, IInteractable
         {
             animator.Play("DoorOpen");
         }
-    }
-
-    public void Stay(Transform target)
-    {
-
     }
 }

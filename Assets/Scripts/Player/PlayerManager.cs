@@ -58,10 +58,14 @@ public class PlayerManager : CharacterManager, IInteractable
         transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
 
+    // input 관련 함수 bool 값 체크
+    // animation만 있는 함수? 분리가 필요하다
+
     void FixedUpdate()
     {
         if (this.transform.position.y < -8) ChangeState(State.Killed);
         Move();
+        Jumping();
     }
 
     protected override IEnumerator Idle()
@@ -82,8 +86,10 @@ public class PlayerManager : CharacterManager, IInteractable
 
     protected override IEnumerator Attack()
 	{
-        var curAnimStateInfo = animator.GetCurrentAnimatorStateInfo(0);
         animator.Play("Attack");
+
+        var curAnimStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        
         GameObject bullet = bulletPrefabs[0];
 
         bulletDelay = bullet.GetComponent<BulletManager>().bulletDelay;
@@ -97,8 +103,7 @@ public class PlayerManager : CharacterManager, IInteractable
         ChangeState(State.Idle);
         yield return new WaitForSeconds(curAnimStateInfo.length *2f);
     }
-
-	void Move()
+    void Jumping()
     {
         if (isKnockBack) return;
         if (hp < 0) return;
@@ -118,9 +123,9 @@ public class PlayerManager : CharacterManager, IInteractable
                     break;
 
                 case Jump.jumpping:
-                    animator.Play("Jump",-1, 0f);
+                    animator.Play("Jump", -1, 0f);
                     rb.velocity = Vector2.zero;
-                    if(Input.GetAxisRaw("Vertical")==1) jumpVelocity = new Vector2(0, doubleJumpPower*2);
+                    if (Input.GetAxisRaw("Vertical") == 1) jumpVelocity = new Vector2(0, doubleJumpPower * 2);
                     else if (transform.localScale.x < 0) jumpVelocity = new Vector2(doubleJumpPower * (-1), doubleJumpPower / 2);
                     else jumpVelocity = new Vector2(doubleJumpPower, doubleJumpPower);
                     rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
@@ -132,6 +137,12 @@ public class PlayerManager : CharacterManager, IInteractable
                     break;
             }
         }
+
+    }
+    void Move()
+    {
+        if (isKnockBack) return;
+        if (hp < 0) return;
 
         Vector3 moveVelocity = Vector3.zero;
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -165,7 +176,7 @@ public class PlayerManager : CharacterManager, IInteractable
         this.AddAtk(this.GetAtk() * (-1));
         animator.Play("Killed");
         rb.bodyType = RigidbodyType2D.Static;
-        this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         Instantiate(killedPrefab, this.transform.position + new Vector3(0, 3, 0), this.transform.rotation);
         yield return new WaitForSeconds(2f);
         Destroy(this.gameObject);

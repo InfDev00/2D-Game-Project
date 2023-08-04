@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaxBot : CharacterManager, IInteractable
+public class MaxBot : CharacterManager, IInteractable, IDetectable
 {
     enum GroundEnemy { Default, Dash, Turret }
     private Vector3 direction = Vector3.left;
@@ -17,7 +17,7 @@ public class MaxBot : CharacterManager, IInteractable
     // Start is called before the first frame update
     void Start()
     {
-        playerManager = PlayerManager.Instance;
+        //playerManager = PlayerManager.Instance;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         state = State.Idle;
@@ -40,13 +40,6 @@ public class MaxBot : CharacterManager, IInteractable
             TurnAround();
             animator.SetBool("isWalk", true);
         }
-
-        //여기서 checkplayer 하고 적 종류에 따라 다른 공격패턴 구현?
-        //if (DistanceToPlayer() < range)
-        //{
-        //    Debug.Log("Detect");
-        //    ChangeState(State.Chase);
-        //}
     }
 
     protected override IEnumerator Chase()
@@ -135,7 +128,7 @@ public class MaxBot : CharacterManager, IInteractable
 
     void SeePlayer()
     {
-        dashDir = playerManager.transform.position - this.transform.position;
+        //dashDir = playerManager.transform.position - this.transform.position;
         //플레이어를 바라봐야 하는지 그냥 냅둬도 되는지 조건문으로 확인
         if (dashDir.x * direction.x < 0)
         {
@@ -189,6 +182,7 @@ public class MaxBot : CharacterManager, IInteractable
 
     public void Detect(Transform target)
     {
+        if (target == null) return;
         Debug.Log("Detect");
         state = State.Chase;
     }
