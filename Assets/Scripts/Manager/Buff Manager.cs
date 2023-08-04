@@ -31,7 +31,7 @@ public class BuffManager : MonoBehaviour
     IEnumerator Stealth(float time)
     {
         float timer = 0;
-        player.tag = "Untagged";
+        player.tag = "Stealth";
         player.GetComponent<SpriteRenderer>().material.color = HexColor("#747474");
         while (timer < time)
         {

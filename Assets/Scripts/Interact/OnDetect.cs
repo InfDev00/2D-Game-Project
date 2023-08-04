@@ -6,18 +6,24 @@ public class OnDetect : MonoBehaviour
 {
     public string targetTag;
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == targetTag)
+        {
+            this.transform.parent.gameObject.TryGetComponent(out IInteractable detect);
+            detect.Detect(null);
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag == targetTag)
         {
             this.transform.parent.gameObject.TryGetComponent(out IInteractable detect);
             detect.Detect(collision.transform);
         }
-    }
 
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == targetTag)
+        if(collision.tag == "Stealth" && targetTag == "Player")
         {
             this.transform.parent.gameObject.TryGetComponent(out IInteractable detect);
             detect.Detect(null);
