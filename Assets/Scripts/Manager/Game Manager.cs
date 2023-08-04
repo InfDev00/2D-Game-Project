@@ -7,15 +7,21 @@ public class GameManager : MonoBehaviour
     private int coins;
     private int life;
     private int deathCount;
+    public GameObject PlayerPrefab;
+    private GameObject player;
 
     private static GameManager instance;
 
     void Start()
     {
+        DontDestroyOnLoad(this.gameObject);
         if (instance == null) instance = this;
+
 
         this.coins = 0;
         this.life = 0;
+
+        Init();
     }
 
     void FixedUpdate()
@@ -25,8 +31,15 @@ public class GameManager : MonoBehaviour
             coins -= 100;
             life += 1;
         }
+
+        if(player==null)Init();
     }
 
+    void Init()
+    {
+        player = Instantiate(PlayerPrefab, this.transform.position, this.transform.rotation);
+        player.name = "Player";
+    }
 
 
 

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f
+guid: b7c1614ebed1f7a41bf62ecc4811491d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Idel 0
+      name: Idle 0
       rect:
         serializedVersion: 2
         x: 186
@@ -131,20 +131,20 @@ TextureImporter:
         width: 78
         height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac6075149e4e16048b87e421617f1feb
-      internalID: -1098300099
+      spriteID: 1d3f16c6858ae1c4cb774df2243a8c88
+      internalID: 277951835
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idel 1
+      name: Idle 1
       rect:
         serializedVersion: 2
         x: 288
@@ -152,14 +152,14 @@ TextureImporter:
         width: 78
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 052a7a145583152478ef17a177f57afb
-      internalID: 849706425
+      spriteID: 2f114378cdb926c44981917c3a88f937
+      internalID: 1692724769
       vertices: []
       indices: 
       edges: []
@@ -173,14 +173,14 @@ TextureImporter:
         width: 78
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4585bed9be7a11446be7db969652eec2
-      internalID: -1543426760
+      spriteID: fea21f36502f273488995c78e3a2cf6c
+      internalID: -1774679920
       vertices: []
       indices: 
       edges: []
@@ -194,14 +194,14 @@ TextureImporter:
         width: 78
         height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db504e43a65e3a24d8bf6cef42d04c03
-      internalID: 1856405814
+      spriteID: 086c8c757987ebb4d8617bcebb6c300d
+      internalID: -1809831595
       vertices: []
       indices: 
       edges: []
@@ -215,14 +215,14 @@ TextureImporter:
         width: 78
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84a04dbdecd689a4595ac9c310ad5cf0
-      internalID: -20521218
+      spriteID: 0312cc95c0169cc46826faa1654e41cb
+      internalID: 1210261780
       vertices: []
       indices: 
       edges: []
@@ -236,14 +236,14 @@ TextureImporter:
         width: 78
         height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73d0e64904bd20440b2bd188e33c5edb
-      internalID: 802401037
+      spriteID: 451c9ca3ea18ef54a92fa6d8efdd8737
+      internalID: 188611046
       vertices: []
       indices: 
       edges: []
@@ -257,14 +257,14 @@ TextureImporter:
         width: 78
         height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e1aa2a750ac951479d6753d1cf2b6e9
-      internalID: -1180645163
+      spriteID: ba2e919966fd4d740bb2efb0dea4f34b
+      internalID: 1780401836
       vertices: []
       indices: 
       edges: []
@@ -278,14 +278,14 @@ TextureImporter:
         width: 78
         height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cddc3959f2940234eb8872d25696ec91
-      internalID: 1107716256
+      spriteID: 744e58ebb98d65c46b3b51e3ea10f10f
+      internalID: 1109082896
       vertices: []
       indices: 
       edges: []
@@ -299,20 +299,20 @@ TextureImporter:
         width: 78
         height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6477cdaf2d224984c9c07de898f2b136
-      internalID: 420196089
+      spriteID: 6c613fa14c4213f4fa3a7da76fd53cbb
+      internalID: 1996110207
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 0
+      name: Attack
       rect:
         serializedVersion: 2
         x: 186
@@ -320,20 +320,20 @@ TextureImporter:
         width: 78
         height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2909b7d377517684f9ea3c70be12344c
-      internalID: -889539899
+      spriteID: 797061e6cb79a684fbfdb8dc35067e04
+      internalID: 13685975
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Transform 0
+      name: Killed 0
       rect:
         serializedVersion: 2
         x: 288
@@ -341,41 +341,41 @@ TextureImporter:
         width: 78
         height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70536427f8fc48d4abcbab7903ab88f4
-      internalID: -491150890
+      spriteID: 8e237698c4fad104c9cfa458c67dd17d
+      internalID: 298517348
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Transform 3
+      name: Killed 1
       rect:
         serializedVersion: 2
-        x: 390
-        y: 162
-        width: 78
+        x: 384
+        y: 144
+        width: 42
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 23cc0e1b6aeb2ee408cb68441fd6a635
-      internalID: -357648515
+      spriteID: 20ce4760785ac554cbf96e6abde36c17
+      internalID: -987316902
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Transform 1
+      name: Life 0
       rect:
         serializedVersion: 2
         x: 186
@@ -383,35 +383,14 @@ TextureImporter:
         width: 78
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c2652321a3fbc5443848c16ae5dbb103
-      internalID: -747456841
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Transform 2
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 72
-        width: 78
-        height: 66
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bcae238a1d4d92243b1537b5fee88c21
-      internalID: 1677042654
+      spriteID: bf1cc6a577fd9bc49b57f6414bfc6013
+      internalID: -84710167
       vertices: []
       indices: 
       edges: []
@@ -427,20 +406,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Attack 0: -889539899
-      Idel 0: -1098300099
-      Idel 1: 849706425
-      Jump 0: -1180645163
-      Jump 1: 1107716256
-      Jump 2: 420196089
-      Transform 0: -491150890
-      Transform 1: -747456841
-      Transform 2: 1677042654
-      Transform 3: -357648515
-      Walk 0: -1543426760
-      Walk 1: 1856405814
-      Walk 2: -20521218
-      Walk 3: 802401037
+      Attack: 13685975
+      Idle 0: 277951835
+      Idle 1: 1692724769
+      Jump 0: 1780401836
+      Jump 1: 1109082896
+      Jump 2: 1996110207
+      Killed 0: 298517348
+      Killed 1: -987316902
+      Life 0: -84710167
+      Walk 0: -1774679920
+      Walk 1: -1809831595
+      Walk 2: 1210261780
+      Walk 3: 188611046
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

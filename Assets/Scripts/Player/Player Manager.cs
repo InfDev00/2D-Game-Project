@@ -8,10 +8,12 @@ public class PlayerManager : CharacterManager, IInteractable
 {
     [SerializeField] protected int jumpPower;
     [SerializeField] protected int doubleJumpPower;
-	private float timer = 0f;
+	
+    private float timer = 0f;
 	private float bulletDelay;
 
 	private GameObject[] bulletPrefabs = new GameObject[3];
+    private GameObject killedPrefab;
 
     private enum Jump { ground, jumpping, doubleJumpping };
     private Jump jump;
@@ -35,7 +37,9 @@ public class PlayerManager : CharacterManager, IInteractable
         bulletPrefabs[1] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Water.prefab", typeof(GameObject));
         bulletPrefabs[2] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Thunder.prefab", typeof(GameObject));
 
-		StartCoroutine(this.StateMachine());
+        killedPrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Killed.prefab", typeof(GameObject));
+
+        StartCoroutine(this.StateMachine());
 	}
 
     void Update()
@@ -56,6 +60,7 @@ public class PlayerManager : CharacterManager, IInteractable
 
     void FixedUpdate()
     {
+        if (this.transform.position.y < -8) ChangeState(State.Killed);
         Move();
     }
 
@@ -157,16 +162,15 @@ public class PlayerManager : CharacterManager, IInteractable
 
     protected override IEnumerator Killed()
 	{
-        this.AddAtk(this.GetAtk());
+        this.AddAtk(this.GetAtk() * (-1));
         animator.Play("Killed");
-        this.rb.AddForce(new Vector2(0, 3f), ForceMode2D.Impulse);
-        this.GetComponent<BoxCollider2D>().enabled = false;
-        this.rb.gravityScale = 2;
-
-        Destroy(this.gameObject, 5f);
-        yield return null;
-	}
-
+        rb.bodyType = RigidbodyType2D.Static;
+        this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        Instantiate(killedPrefab, this.transform.position + new Vector3(0, 3, 0), this.transform.rotation);
+        yield return new WaitForSeconds(2f);
+        Destroy(this.gameObject);
+    }
+    
     public override void Damaged(int damage)
     {
         this.hp -= damage;
@@ -177,7 +181,7 @@ public class PlayerManager : CharacterManager, IInteractable
     {
         isKnockBack = true;
         rb.velocity = Vector2.zero;
-        rb.AddForce(new Vector2(this.transform.localScale.x * (-3), 10), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(this.transform.localScale.x * (-5), 10), ForceMode2D.Impulse);
         yield return new WaitUntil(() => jump == Jump.ground);
         isKnockBack = false;    
     }

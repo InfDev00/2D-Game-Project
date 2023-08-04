@@ -1,46 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!21 &-6496035952512527432
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: TextMeshPro/Sprite
-  m_Shader: {fileID: 4800000, guid: cf81c85f95fe47e1a27f6ae460cf182c, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _CullMode: 0
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a92b25f83d49b9bc132d206b370281, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  hashCode: -1186796941
-  material: {fileID: -6496035952512527432}
+  hashCode: 484123717
+  material: {fileID: 3808093103996761128}
   materialHashCode: 0
   m_Version: 1.1.0
   m_FaceInfo:
@@ -79,20 +38,20 @@ MonoBehaviour:
     m_StrikethroughOffset: 0
     m_StrikethroughThickness: 0
     m_TabWidth: 0
-  spriteSheet: {fileID: 2800000, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
+  spriteSheet: {fileID: 2800000, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
   m_SpriteCharacterTable:
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 0
     m_Scale: 1
-    m_Name: Idel 0
-    m_HashCode: -1546258252
+    m_Name: Idle 0
+    m_HashCode: -1546569836
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 1
     m_Scale: 1
-    m_Name: Idel 1
-    m_HashCode: -1546258251
+    m_Name: Idle 1
+    m_HashCode: -1546569835
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 2
@@ -139,32 +98,26 @@ MonoBehaviour:
     m_Unicode: 65534
     m_GlyphIndex: 9
     m_Scale: 1
-    m_Name: Transform 3
-    m_HashCode: -1493130017
+    m_Name: Attack
+    m_HashCode: -1840967896
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 10
     m_Scale: 1
-    m_Name: Attack 0
-    m_HashCode: 935687480
+    m_Name: Killed 0
+    m_HashCode: 525512371
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 11
     m_Scale: 1
-    m_Name: Transform 0
-    m_HashCode: -1493130020
+    m_Name: Killed 1
+    m_HashCode: 525512370
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 12
     m_Scale: 1
-    m_Name: Transform 1
-    m_HashCode: -1493130019
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 13
-    m_Scale: 1
-    m_Name: Transform 2
-    m_HashCode: -1493130018
+    m_Name: Life 0
+    m_HashCode: -1368043402
   m_SpriteGlyphTable:
   - m_Index: 0
     m_Metrics:
@@ -181,7 +134,7 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: -1098300099, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
+    sprite: {fileID: 277951835, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
   - m_Index: 1
     m_Metrics:
       m_Width: 78
@@ -197,7 +150,7 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: 849706425, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
+    sprite: {fileID: 1692724769, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
   - m_Index: 2
     m_Metrics:
       m_Width: 78
@@ -213,7 +166,7 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: -1543426760, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
+    sprite: {fileID: -1774679920, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
   - m_Index: 3
     m_Metrics:
       m_Width: 78
@@ -229,7 +182,7 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: 1856405814, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
+    sprite: {fileID: -1809831595, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
   - m_Index: 4
     m_Metrics:
       m_Width: 78
@@ -245,7 +198,7 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: -20521218, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
+    sprite: {fileID: 1210261780, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
   - m_Index: 5
     m_Metrics:
       m_Width: 78
@@ -261,7 +214,7 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: 802401037, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
+    sprite: {fileID: 188611046, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
   - m_Index: 6
     m_Metrics:
       m_Width: 78
@@ -277,7 +230,7 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: -1180645163, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
+    sprite: {fileID: 1780401836, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
   - m_Index: 7
     m_Metrics:
       m_Width: 78
@@ -293,7 +246,7 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: 1107716256, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
+    sprite: {fileID: 1109082896, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
   - m_Index: 8
     m_Metrics:
       m_Width: 78
@@ -309,24 +262,8 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: 420196089, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
+    sprite: {fileID: 1996110207, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
   - m_Index: 9
-    m_Metrics:
-      m_Width: 78
-      m_Height: 66
-      m_HorizontalBearingX: -39
-      m_HorizontalBearingY: 33
-      m_HorizontalAdvance: 78
-    m_GlyphRect:
-      m_X: 390
-      m_Y: 162
-      m_Width: 78
-      m_Height: 66
-    m_Scale: 1
-    m_AtlasIndex: 0
-    m_ClassDefinitionType: 0
-    sprite: {fileID: -357648515, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
-  - m_Index: 10
     m_Metrics:
       m_Width: 78
       m_Height: 96
@@ -341,8 +278,8 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: -889539899, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
-  - m_Index: 11
+    sprite: {fileID: 13685975, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
+  - m_Index: 10
     m_Metrics:
       m_Width: 78
       m_Height: 96
@@ -357,7 +294,23 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: -491150890, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
+    sprite: {fileID: 298517348, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
+  - m_Index: 11
+    m_Metrics:
+      m_Width: 42
+      m_Height: 66
+      m_HorizontalBearingX: -21
+      m_HorizontalBearingY: 33
+      m_HorizontalAdvance: 42
+    m_GlyphRect:
+      m_X: 384
+      m_Y: 144
+      m_Width: 42
+      m_Height: 66
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -987316902, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
   - m_Index: 12
     m_Metrics:
       m_Width: 78
@@ -373,22 +326,47 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: -747456841, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
-  - m_Index: 13
-    m_Metrics:
-      m_Width: 78
-      m_Height: 66
-      m_HorizontalBearingX: -39
-      m_HorizontalBearingY: 33
-      m_HorizontalAdvance: 78
-    m_GlyphRect:
-      m_X: 288
-      m_Y: 72
-      m_Width: 78
-      m_Height: 66
-    m_Scale: 1
-    m_AtlasIndex: 0
-    m_ClassDefinitionType: 0
-    sprite: {fileID: 1677042654, guid: d7d1cb1f6e19a2b4d91d021e3ae09e3f, type: 3}
+    sprite: {fileID: -84710167, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
   spriteInfoList: []
   fallbackSpriteAssets: []
+--- !u!21 &3808093103996761128
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TextMeshPro/Sprite
+  m_Shader: {fileID: 4800000, guid: cf81c85f95fe47e1a27f6ae460cf182c, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: b7c1614ebed1f7a41bf62ecc4811491d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _CullMode: 0
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

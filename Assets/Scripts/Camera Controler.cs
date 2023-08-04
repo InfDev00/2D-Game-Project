@@ -15,15 +15,13 @@ public class CameraControler : MonoBehaviour
 
     void Awake()
     {
-        player = GameObject.Find("Player").transform;
-
-
         height = Camera.main.orthographicSize;
         width = height * Screen.width / Screen.height;
     }
 
     void FixedUpdate()
     {
+        player = GameObject.Find("Player").transform;
         LimitCameraArea();
     }
 
