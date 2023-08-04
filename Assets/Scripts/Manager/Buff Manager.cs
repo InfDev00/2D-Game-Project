@@ -31,7 +31,7 @@ public class BuffManager : MonoBehaviour
     IEnumerator Stealth(float time)
     {
         float timer = 0;
-        player.tag = "Untagged";
+        player.tag = "Stealth";
         player.GetComponent<SpriteRenderer>().material.color = HexColor("#747474");
         while (timer < time)
         {
@@ -47,7 +47,7 @@ public class BuffManager : MonoBehaviour
     {
         float timer = 0;
         playerScript.AddJumpPower(power);
-        while(timer < time)
+        while (timer < time)
         {
             timer += tic;
             yield return new WaitForSeconds(tic);
@@ -59,7 +59,7 @@ public class BuffManager : MonoBehaviour
     public void BuffStart(string buffName, float time = 5f, int heal = 0, int jumpPower = 0)
     {
         Buff key = (Buff)Buff.Parse(typeof(Buff), buffName);
-        switch(key)
+        switch (key)
         {
             case Buff.jumpPower:
                 StartCoroutine(JumpPower(time, jumpPower));

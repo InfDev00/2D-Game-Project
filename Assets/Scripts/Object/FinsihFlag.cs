@@ -13,4 +13,9 @@ public class FinishFlag : MonoBehaviour,IInteractable
     {
         Debug.Log("Finished. Go to next level");
     }
+
+    public void Stay(Transform target)
+    {
+        throw new System.NotImplementedException();
+    }
 }
