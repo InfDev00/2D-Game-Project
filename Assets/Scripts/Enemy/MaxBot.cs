@@ -7,10 +7,11 @@ public class MaxBot : CharacterManager, IInteractable, IDetectable
     enum GroundEnemy { Default, Dash, Turret }
     private Vector3 direction = Vector3.left;
     private int xScale = 1;
+    private Transform target;
     [SerializeField] private int range;
     [SerializeField] private int dashSpd;
     [SerializeField] GroundEnemy enemyType;
-    [SerializeField] Transform rayPoint;
+    [SerializeField] OnRayCast rayCast;
     Vector3 hitDir;
     Vector3 dashDir;
     
@@ -33,8 +34,10 @@ public class MaxBot : CharacterManager, IInteractable, IDetectable
 
         yield return null;
 
-        if (CheckGround() == false)
+        //땅체크 or 앞이 땅으로 막혔을 때
+        if (!rayCast.CheckWithRay(Vector2.down,5) || rayCast.CheckWithRay(direction, .5f) )
         {
+            Debug.Log(rayCast.CheckWithRay(direction, 1));
             animator.SetBool("isWalk", false);
             yield return new WaitForSeconds(3f);
             TurnAround();
@@ -128,7 +131,9 @@ public class MaxBot : CharacterManager, IInteractable, IDetectable
 
     void SeePlayer()
     {
-        //dashDir = playerManager.transform.position - this.transform.position;
+        if (target == null) return;
+
+        dashDir = target.position - this.transform.position;
         //플레이어를 바라봐야 하는지 그냥 냅둬도 되는지 조건문으로 확인
         if (dashDir.x * direction.x < 0)
         {
@@ -157,18 +162,18 @@ public class MaxBot : CharacterManager, IInteractable, IDetectable
     {
 
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        hitDir = this.transform.position - collision.transform.position;
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    hitDir = this.transform.position - collision.transform.position;
 
-        if 
+    //    if 
    
 
-    (collision.gameObject.tag=="Bullet")
-        {
-            StartCoroutine(HitCo());
-        }
-    }
+    //(collision.gameObject.tag=="Bullet")
+    //    {
+    //        StartCoroutine(HitCo());
+    //    }
+    //}
     public void Interact(Transform target)
     {
         Debug.Log("stepon");
@@ -182,33 +187,36 @@ public class MaxBot : CharacterManager, IInteractable, IDetectable
 
     public void Detect(Transform target)
     {
-        if (target == null) return;
+        this.target = target;
+
+        if (this.target == null) return;
+
         Debug.Log("Detect");
-        state = State.Chase;
+        ChangeState(State.Chase);
     }
 
 
     public override void Damaged(int damage)
     {
-
+        rb.AddForce(new Vector2(this.transform.localScale.x * (1f), 2f), ForceMode2D.Impulse);
+        Debug.Log("Hit by bullet");
+        hp -= damage;
+        //StartCoroutine(Move());
     }
 
 
-    bool CheckGround()
-    {
+    //bool CheckGround()
+    //{
 
-        Debug.DrawRay(rayPoint.transform.position, Vector3.down, Color.blue);
-        if (Physics2D.Raycast(rayPoint.transform.position, Vector3.down, 5))
-        {
-            return true;
-        }
-        else return false;
+    //    Debug.DrawRay(rayPoint.transform.position, Vector3.down, Color.blue);
+    //    if (Physics2D.Raycast(rayPoint.transform.position, Vector3.down, 5))
+    //    {
+    //        return true;
+    //    }
+    //    else return false;
 
-    }
+    //}
 
-    public void Stay(Transform target)
-    {
-        throw new System.NotImplementedException();
-    }
+   
 
 }
