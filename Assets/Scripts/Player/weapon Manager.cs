@@ -16,9 +16,19 @@ public class WeaponManager : MonoBehaviour
         if(collision.tag == "Player")
         {
             this.transform.parent = collision.transform;
-            this.transform.rotation = Quaternion.Euler(0, 0, 20);
-            this.transform.position = collision.transform.position + new Vector3(0.8f, 0, 0);
+            switch (collision.transform.localScale.x)
+            {
+                case 1 :
+                    this.transform.localRotation = Quaternion.Euler(0, 0, 20);
+                    this.transform.position = collision.transform.position + new Vector3(0.3f, -0.2f, 0);
+                    break;
+                case -1 :
+                    this.transform.localRotation = Quaternion.Euler(0, 0, 200);
+                    this.transform.position = collision.transform.position + new Vector3(-0.3f, -0.2f, 0);
+                    break;
+            }
 
+            this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
             collision.gameObject.GetComponent<PlayerManager>().SetWeapon("sword");
         }
     }
