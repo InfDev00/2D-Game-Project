@@ -15,6 +15,9 @@ public class PlayerManager : CharacterManager, IInteractable
 	private GameObject[] bulletPrefabs = new GameObject[3];
     private GameObject killedPrefab;
 
+    private enum Weapon { none, sword};
+    private Weapon weapon;
+
     private enum Jump { ground, jumpping, doubleJumpping };
     private Jump jump;
     private bool isJump = false;
@@ -31,6 +34,7 @@ public class PlayerManager : CharacterManager, IInteractable
 		rb = gameObject.GetComponent<Rigidbody2D>();
 		animator = this.GetComponent<Animator>();
         this.jump = Jump.ground;
+        this.weapon = Weapon.none;
         ChangeState(State.Idle);
 
 		bulletPrefabs[0] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Fire.prefab", typeof(GameObject));
@@ -86,22 +90,33 @@ public class PlayerManager : CharacterManager, IInteractable
 
     protected override IEnumerator Attack()
 	{
-        animator.Play("Attack");
-
-        var curAnimStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        
-        GameObject bullet = bulletPrefabs[0];
-
-        bulletDelay = bullet.GetComponent<BulletManager>().bulletDelay;
-        timer += Time.deltaTime;
-        if (timer > bulletDelay)
+        switch(this.weapon)
         {
-            Instantiate(bullet, this.transform.position + new Vector3(this.transform.localScale.x * 0.7f, 0, 0), this.transform.rotation);
-            timer = 0;
-        }
+            case Weapon.none:
+                animator.Play("Attack");
 
-        ChangeState(State.Idle);
-        yield return new WaitForSeconds(curAnimStateInfo.length *2f);
+                var curAnimStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+                GameObject bullet = bulletPrefabs[0];
+
+                bulletDelay = bullet.GetComponent<BulletManager>().bulletDelay;
+                timer += Time.deltaTime;
+                if (timer > bulletDelay)
+                {
+                    Instantiate(bullet, this.transform.position + new Vector3(this.transform.localScale.x * 0.7f, 0, 0), this.transform.rotation);
+                    timer = 0;
+                }
+
+                ChangeState(State.Idle);
+                yield return new WaitForSeconds(curAnimStateInfo.length * 2f);
+                break;
+            case Weapon.sword:
+                var sword = this.transform.Find("Sword");
+                sword.rotation = Quaternion.Euler(0, 0, 10);
+                yield return new WaitForSeconds(1f);
+                sword.rotation = Quaternion.Euler(0, 0, 20);
+                break;
+        }
     }
     void Jumping()
     {
@@ -214,15 +229,8 @@ public class PlayerManager : CharacterManager, IInteractable
         }
     }
 
-    public void Detect(Transform target)
-    {
 
-    }
-
-    public void Stay(Transform target)
-    {
-
-    }
+    public void SetWeapon(string weapon) { this.weapon = (Weapon)Weapon.Parse(typeof(Weapon),weapon); }
 
     public int GetJumpPower() { return this.jumpPower; }
     public void AddJumpPower(int power) { this.jumpPower += power; }
