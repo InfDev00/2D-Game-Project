@@ -51,7 +51,7 @@ public class PlayerManager : CharacterManager, IInteractable
         timer += Time.deltaTime;
         if (Input.GetButtonDown("Jump")) isJump = true;
 
-        if (Input.GetButtonDown("Fire1")) ChangeState(State.Attack);
+        if (Input.GetButtonDown("Fire1") && this.state != State.Attack) ChangeState(State.Attack);
 
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
 
@@ -100,7 +100,6 @@ public class PlayerManager : CharacterManager, IInteractable
                 GameObject bullet = bulletPrefabs[0];
 
                 bulletDelay = bullet.GetComponent<BulletManager>().bulletDelay;
-                timer += Time.deltaTime;
                 if (timer > bulletDelay)
                 {
                     Instantiate(bullet, this.transform.position + new Vector3(this.transform.localScale.x * 0.7f, 0, 0), this.transform.rotation);
@@ -112,9 +111,28 @@ public class PlayerManager : CharacterManager, IInteractable
                 break;
             case Weapon.sword:
                 var sword = this.transform.Find("Sword");
-                sword.rotation = Quaternion.Euler(0, 0, 10);
-                yield return new WaitForSeconds(1f);
-                sword.rotation = Quaternion.Euler(0, 0, 20);
+                this.bulletDelay = 0.1f;
+                if (timer > bulletDelay)
+                {
+                    sword.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+                    var curRotation = sword.transform.rotation;
+                    for (int i = 0; i < 3; ++i)
+                    {
+                        sword.localRotation = Quaternion.Euler(0, 0, -20);
+                        yield return new WaitForSeconds(0.05f);
+                        sword.localRotation = curRotation;
+                        yield return new WaitForSeconds(0.05f);
+                    }
+
+                    sword.localRotation = Quaternion.Euler(0, 0, 120);
+                    yield return new WaitForSeconds(0.05f);
+                    sword.localRotation = curRotation;
+                    sword.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                    timer = 0;
+                }
+
+                ChangeState(State.Idle);
+                yield return new WaitForSeconds(0.1f);
                 break;
         }
     }
