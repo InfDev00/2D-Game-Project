@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 
     void Init()
     {
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name == "EndingScene") return;
         player = Instantiate(PlayerPrefab, this.transform.position, this.transform.rotation);
         player.name = "Player";
         player.GetComponent<PlayerManager>().SetHp(this.newHp);

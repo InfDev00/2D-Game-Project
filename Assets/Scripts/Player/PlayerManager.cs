@@ -240,6 +240,7 @@ public class PlayerManager : CharacterManager, IInteractable
 
     public void Interact(Transform target)
     {
+        if (target == null) return;
         switch(target.tag)
         {
             case "Ground":
