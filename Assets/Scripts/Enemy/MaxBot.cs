@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class MaxBot : CharacterManager, IInteractable, IDetectable
 {
-    enum GroundEnemy { Default, Dash, Turret }
+    enum GroundEnemy { Default, Dash}
     private Vector3 direction = Vector3.left;
     private int xScale = 1;
     private Transform target;
-    [SerializeField] private int range;
     [SerializeField] private int dashSpd;
     [SerializeField] GroundEnemy enemyType;
     [SerializeField] OnRayCast rayCast;
@@ -37,7 +36,6 @@ public class MaxBot : CharacterManager, IInteractable, IDetectable
         //¶¥Ã¼Å© or ¾ÕÀÌ ¶¥À¸·Î ¸·ÇûÀ» ¶§
         if (!rayCast.CheckWithRay(Vector2.down,5) || rayCast.CheckWithRay(direction, .5f) )
         {
-            Debug.Log(rayCast.CheckWithRay(direction, 1));
             animator.SetBool("isWalk", false);
             yield return new WaitForSeconds(3f);
             TurnAround();
@@ -65,9 +63,6 @@ public class MaxBot : CharacterManager, IInteractable, IDetectable
             case GroundEnemy.Dash:
                 yield return Dash();
                 break;
-            case GroundEnemy.Turret:
-                yield return Turret();
-                break;
             default:
                 break;
         }
@@ -77,19 +72,8 @@ public class MaxBot : CharacterManager, IInteractable, IDetectable
     {
         Debug.Log(this.gameObject.name + " died");
         animator.SetBool("isDie", true);
-        yield return new WaitForSeconds(1.3f);
-        Destroy(gameObject);
-    }
-
-    //coroutine Àû±Ø»ç¿ë
-    //ÃÑ¾Ë¸Â¾ÒÀ» ¶§ È¿°ú
-    IEnumerator HitCo()
-    {
-        rb.AddForce(hitDir, ForceMode2D.Impulse);
-        Debug.Log("Hit by bullet");
-        hp -= 1;
         yield return new WaitForSeconds(1f);
-        //StartCoroutine(Move());
+        Destroy(gameObject);
     }
 
     //Á×¾úÀ» ¶§ È¿°ú
@@ -158,22 +142,6 @@ public class MaxBot : CharacterManager, IInteractable, IDetectable
         transform.localScale = currentScale;
     }
 
-    void LaunchMissile()
-    {
-
-    }
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    hitDir = this.transform.position - collision.transform.position;
-
-    //    if 
-   
-
-    //(collision.gameObject.tag=="Bullet")
-    //    {
-    //        StartCoroutine(HitCo());
-    //    }
-    //}
     public void Interact(Transform target)
     {
         Debug.Log("stepon");
@@ -205,17 +173,7 @@ public class MaxBot : CharacterManager, IInteractable, IDetectable
     }
 
 
-    //bool CheckGround()
-    //{
-
-    //    Debug.DrawRay(rayPoint.transform.position, Vector3.down, Color.blue);
-    //    if (Physics2D.Raycast(rayPoint.transform.position, Vector3.down, 5))
-    //    {
-    //        return true;
-    //    }
-    //    else return false;
-
-    //}
+    
 
    
 
