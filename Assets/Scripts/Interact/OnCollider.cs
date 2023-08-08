@@ -15,4 +15,13 @@ public class OnCollider: MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == this.targetTag)
+        {
+            this.transform.parent.gameObject.TryGetComponent(out IInteractable interactable);
+            interactable.Interact(null);
+            //this.gameObject.SetActive(false);
+        }
+    }
 }

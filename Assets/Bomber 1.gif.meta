@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: da7f5f42ea979ac408b66965ab9497fc
+guid: 4b67e404d32a4394ebe3848f127b762d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -107,19 +107,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -136,43 +123,43 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bomber_2
+      name: Bomber 1_0
       rect:
         serializedVersion: 2
-        x: 82
-        y: 58
-        width: 315
-        height: 255
+        x: 88
+        y: 91
+        width: 293
+        height: 180
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 406984419b862fb4aa7ef0379c8318ea
-      internalID: -1516430994
+      spriteID: 8638531599ba2db44afe17c261eaa55b
+      internalID: 639589619
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bomber_3
+      name: Bomber 1_1
       rect:
         serializedVersion: 2
-        x: 406
-        y: 78
-        width: 292
-        height: 252
+        x: 408
+        y: 109
+        width: 274
+        height: 173
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 331cf1a2e435e8a438968b920de97d75
-      internalID: -335479522
+      spriteID: 2d3e167f17fe22f41a8a2cbfd4520520
+      internalID: -239317141
       vertices: []
       indices: 
       edges: []
@@ -188,10 +175,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Bomber_0: -277082594
-      Bomber_1: -494509168
-      Bomber_2: -1516430994
-      Bomber_3: -335479522
+      Bomber 1_0: 639589619
+      Bomber 1_1: -239317141
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
