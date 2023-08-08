@@ -22,6 +22,7 @@ public class CameraControler : MonoBehaviour
     void FixedUpdate()
     {
         player = GameObject.Find("Player").transform;
+        if (player == null) this.transform.position = new Vector3(0, 0, -10);
         LimitCameraArea();
     }
 

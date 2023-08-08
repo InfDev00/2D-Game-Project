@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     private int coins;
     private int life;
     private int deathCount;
+    private int newHp = 10;
     public GameObject PlayerPrefab;
     private GameObject player;
 
@@ -32,16 +34,27 @@ public class GameManager : MonoBehaviour
             life += 1;
         }
 
-        if(player==null)Init();
+        if (player == null) PlayerKilled();
     }
 
     void Init()
     {
         player = Instantiate(PlayerPrefab, this.transform.position, this.transform.rotation);
         player.name = "Player";
+        player.GetComponent<PlayerManager>().SetHp(this.newHp);
     }
 
+    void PlayerKilled()
+    {
+        GameObject.Find("Main Camera").transform.position = new Vector3(0, 0, -10);
+        Init();
+    }
 
+    public void SceneChange(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+        this.newHp =  PlayerManager.Instance.GetHp();
+    }
 
     public void AddCoins(int coins) { this.coins += coins; }
     public int GetCoins() { return this.coins; }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour, IInteractable, IDetectable
 {
@@ -15,7 +14,8 @@ public class Door : MonoBehaviour, IInteractable, IDetectable
     public void Interact(Transform target)
     {
         Debug.Log("GameEnd");
-        SceneManager.LoadScene(SceneName);
+        GameManager.Instance.SceneChange(SceneName);
+
     }
 
     public void Detect(Transform target)

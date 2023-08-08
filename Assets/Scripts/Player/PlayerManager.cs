@@ -107,7 +107,7 @@ public class PlayerManager : CharacterManager, IInteractable
                 }
 
                 ChangeState(State.Idle);
-                yield return new WaitForSeconds(curAnimStateInfo.length * 2f);
+                yield return new WaitForSeconds(0.1f);
                 break;
             case Weapon.sword:
                 var sword = this.transform.Find("Sword");
@@ -115,7 +115,8 @@ public class PlayerManager : CharacterManager, IInteractable
                 if (timer > bulletDelay)
                 {
                     sword.gameObject.GetComponent<BoxCollider2D>().enabled = true;
-                    var curRotation = sword.transform.rotation;
+                    var curRotation = sword.transform.localRotation;
+                    var curPosition = sword.transform.localPosition;
                     for (int i = 0; i < 3; ++i)
                     {
                         sword.localRotation = Quaternion.Euler(0, 0, -20);
@@ -123,10 +124,11 @@ public class PlayerManager : CharacterManager, IInteractable
                         sword.localRotation = curRotation;
                         yield return new WaitForSeconds(0.05f);
                     }
-
+                    sword.localPosition = new Vector3(0,0.5f,0);
                     sword.localRotation = Quaternion.Euler(0, 0, 120);
                     yield return new WaitForSeconds(0.05f);
                     sword.localRotation = curRotation;
+                    sword.localPosition = curPosition;
                     sword.gameObject.GetComponent<BoxCollider2D>().enabled = false;
                     timer = 0;
                 }
@@ -174,6 +176,7 @@ public class PlayerManager : CharacterManager, IInteractable
     }
     void Move()
     {
+        if (state == State.Attack) return;
         if (isKnockBack) return;
         if (hp < 0) return;
 
@@ -214,7 +217,12 @@ public class PlayerManager : CharacterManager, IInteractable
         yield return new WaitForSeconds(2f);
         Destroy(this.gameObject);
     }
-    
+
+    void OnBecameInvisible()
+    {
+        Destroy(this.gameObject);
+    }
+
     public override void Damaged(int damage)
     {
         this.hp -= damage;
@@ -247,6 +255,7 @@ public class PlayerManager : CharacterManager, IInteractable
         }
     }
 
+    public void SetHp(int hp) { this.hp =  hp; }
 
     public void SetWeapon(string weapon) { this.weapon = (Weapon)Weapon.Parse(typeof(Weapon),weapon); }
 

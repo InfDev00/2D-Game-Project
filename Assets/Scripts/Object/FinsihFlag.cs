@@ -12,6 +12,7 @@ public class FinishFlag : MonoBehaviour,IInteractable
     public void Interact(Transform target)
     {
         Debug.Log("Finished. Go to next level");
+        GameManager.Instance.SceneChange("EndingScene");
     }
 
     public void Stay(Transform target)
