@@ -78,6 +78,7 @@ public class PlayerManager : CharacterManager, IInteractable
             {
                 case Jump.ground:
                     animator.Play("Jump", -1, 0f);
+                    GameManager.Instance.soundControl.PlaySfx("jump");
                     rb.velocity = Vector2.zero;
                     jumpVelocity = new Vector2(0, jumpPower);
                     rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
@@ -87,6 +88,7 @@ public class PlayerManager : CharacterManager, IInteractable
 
                 case Jump.jumpping:
                     animator.Play("Jump", -1, 0f);
+                    GameManager.Instance.soundControl.PlaySfx("dash");
                     rb.velocity = Vector2.zero;
                     if (Input.GetAxisRaw("Vertical") == 1) jumpVelocity = new Vector2(0, doubleJumpPower * 2);
                     else if (transform.localScale.x < 0) jumpVelocity = new Vector2(doubleJumpPower * (-1), doubleJumpPower / 2);

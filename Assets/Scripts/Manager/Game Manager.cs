@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     private static GameManager instance;
 
+    public SoundManager soundControl;
+
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour
         player = Instantiate(PlayerPrefab, this.transform.position, this.transform.rotation);
         player.name = "Player";
         player.GetComponent<PlayerManager>().SetHp(this.newHp);
+        soundControl.PlayBgm("InGame");
     }
 
     void PlayerKilled()
