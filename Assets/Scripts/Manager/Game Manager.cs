@@ -34,16 +34,20 @@ public class GameManager : MonoBehaviour
             life += 1;
         }
 
-        if (player == null) PlayerKilled();
+        if(player!= null && player.GetComponent<PlayerManager>().GetHp()<=0)PlayerKilled();
     }
 
     void Init()
     {
         Scene scene = SceneManager.GetActiveScene();
         if (scene.name == "EndingScene") return;
-        player = Instantiate(PlayerPrefab, this.transform.position, this.transform.rotation);
-        player.name = "Player";
-        player.GetComponent<PlayerManager>().SetHp(this.newHp);
+
+        if (player == null)
+        {
+            player = Instantiate(PlayerPrefab, this.transform.position, this.transform.rotation);
+            player.name = "Player";
+            player.GetComponent<PlayerManager>().SetHp(this.newHp);
+        }
     }
 
     void PlayerKilled()
@@ -55,13 +59,21 @@ public class GameManager : MonoBehaviour
             Init();
         }
 
-        //SceneChange("EndingScene");
+        else SceneChange("EndingScene");
     }
 
     public void SceneChange(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
         this.newHp =  PlayerManager.Instance.GetHp();
+        StartCoroutine(newPlayer(sceneName));
+    }
+
+    IEnumerator newPlayer(string name)
+    {
+        Debug.Log(name);
+        yield return new WaitUntil(()=> SceneManager.GetActiveScene().name == name);
+        Init();
     }
 
     public void AddCoins(int coins) { this.coins += coins; }

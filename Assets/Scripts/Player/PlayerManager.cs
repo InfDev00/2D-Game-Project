@@ -45,6 +45,15 @@ public class PlayerManager : CharacterManager, IInteractable
 
     void Update()
     {
+        if (Input.GetButtonDown("Fire1")) StartCoroutine(Attack());
+        if (Input.GetButtonDown("Jump"))
+        {
+            isJump = true;
+            ChangeState(State.Chase);
+        }
+        if (Input.GetAxisRaw("Horizontal") != 0) ChangeState(State.Chase);
+
+
         timer += Time.deltaTime;
 
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
@@ -58,14 +67,8 @@ public class PlayerManager : CharacterManager, IInteractable
 
     protected override IEnumerator Idle()
 	{
-        if (Input.GetButtonDown("Jump"))
-        {
-            isJump = true;
-            ChangeState(State.Chase);
-        }
-        if (Input.GetAxisRaw("Horizontal") != 0) ChangeState(State.Chase);
-        if (Input.GetButtonDown("Fire1")) ChangeState(State.Attack);
-        animator.Play("Idle");
+
+        AnimationPlayer("Idle");
         yield return null;
 	}
 
@@ -77,7 +80,7 @@ public class PlayerManager : CharacterManager, IInteractable
             switch (jump)
             {
                 case Jump.ground:
-                    animator.Play("Jump", -1, 0f);
+                    AnimationPlayer("Jump");
                     rb.velocity = Vector2.zero;
                     jumpVelocity = new Vector2(0, jumpPower);
                     rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
@@ -86,7 +89,7 @@ public class PlayerManager : CharacterManager, IInteractable
                     break;
 
                 case Jump.jumpping:
-                    animator.Play("Jump", -1, 0f);
+                    AnimationPlayer("Jump");
                     rb.velocity = Vector2.zero;
                     if (Input.GetAxisRaw("Vertical") == 1) jumpVelocity = new Vector2(0, doubleJumpPower * 2);
                     else if (transform.localScale.x < 0) jumpVelocity = new Vector2(doubleJumpPower * (-1), doubleJumpPower / 2);
@@ -121,7 +124,7 @@ public class PlayerManager : CharacterManager, IInteractable
                 break;
         }
 
-         animator.Play("Walk");
+        AnimationPlayer("Walk");
         transform.position += moveVelocity * speed * Time.deltaTime;
     }
 
@@ -180,6 +183,7 @@ public class PlayerManager : CharacterManager, IInteractable
         this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         Instantiate(killedPrefab, this.transform.position + new Vector3(0, 3, 0), this.transform.rotation);
         yield return new WaitForSeconds(2f);
+        this.hp = 0;
         Destroy(this.gameObject);
     }
 
@@ -212,13 +216,19 @@ public class PlayerManager : CharacterManager, IInteractable
                 rb.velocity = Vector2.zero;
                 jump = Jump.ground;
                 isJump = false;
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) animator.Play("Walk");
+                if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) AnimationPlayer("walk");
                 break;
             case "Enemy":
                 StartCoroutine(Knockback());
                 target.gameObject.GetComponent<CharacterManager>().Damaged(this.atk);
                 break;
         }
+    }
+
+    void AnimationPlayer(string name)
+    {
+        var currentAnimInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (!currentAnimInfo.IsName("Attack") || currentAnimInfo.normalizedTime > 1f) animator.Play(name);
     }
 
     public void SetHp(int hp) { this.hp =  hp; }
