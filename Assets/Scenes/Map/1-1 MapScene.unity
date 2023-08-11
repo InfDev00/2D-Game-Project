@@ -440,6 +440,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 7014065627051282623, guid: 5a2201e3c43ffcc43a60c31c52603144, type: 3}
+      propertyPath: sfxClipList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7014065627051282623, guid: 5a2201e3c43ffcc43a60c31c52603144, type: 3}
+      propertyPath: sfxNameList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7014065627051282623, guid: 5a2201e3c43ffcc43a60c31c52603144, type: 3}
+      propertyPath: sfxClipList.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7c27a13555c6947eab6aca916a0f03ed, type: 3}
+    - target: {fileID: 7014065627051282623, guid: 5a2201e3c43ffcc43a60c31c52603144, type: 3}
+      propertyPath: sfxClipList.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 635bb516efecc4961a33481332684746, type: 3}
+    - target: {fileID: 7014065627051282623, guid: 5a2201e3c43ffcc43a60c31c52603144, type: 3}
+      propertyPath: sfxClipList.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 257ad41856c414a4fa83c51d7778725c, type: 3}
+    - target: {fileID: 7014065627051282623, guid: 5a2201e3c43ffcc43a60c31c52603144, type: 3}
+      propertyPath: sfxNameList.Array.data[0]
+      value: jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 7014065627051282623, guid: 5a2201e3c43ffcc43a60c31c52603144, type: 3}
+      propertyPath: sfxNameList.Array.data[1]
+      value: dash
+      objectReference: {fileID: 0}
+    - target: {fileID: 7014065627051282623, guid: 5a2201e3c43ffcc43a60c31c52603144, type: 3}
+      propertyPath: sfxNameList.Array.data[2]
+      value: pipe
+      objectReference: {fileID: 0}
     - target: {fileID: 9023370614888799467, guid: 5a2201e3c43ffcc43a60c31c52603144, type: 3}
       propertyPath: m_RootOrder
       value: 2

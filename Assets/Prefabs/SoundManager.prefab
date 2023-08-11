@@ -60,8 +60,8 @@ MonoBehaviour:
   - GameEnd
   - Loading
   sfxNameList: []
-  bgmSource: {fileID: 0}
-  sfxSource: {fileID: 0}
+  bgmSource: {fileID: 8195655426051391778}
+  sfxSource: {fileID: 6730786279502689800}
 --- !u!1 &4729266724687596667
 GameObject:
   m_ObjectHideFlags: 0
