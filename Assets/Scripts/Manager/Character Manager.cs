@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class CharacterManager : MonoBehaviour
 {
-    protected PlayerManager playerManager = PlayerManager.Instance;
     protected Rigidbody2D rb;
     protected Animator animator;
 
@@ -37,12 +36,6 @@ public abstract class CharacterManager : MonoBehaviour
     {
         state = newState;
     }
-
-        public void DealDamage()
-    {
-        //playerManager.
-    }
-
 
     public abstract void Damaged(int damage);
 
