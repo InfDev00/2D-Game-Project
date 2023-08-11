@@ -12,7 +12,7 @@ public class PlayerManager : CharacterManager, IInteractable
     private float timer = 0f;
 	private float bulletDelay;
 
-	private GameObject[] bulletPrefabs = new GameObject[3];
+    private GameObject bulletPrefab;
     private GameObject killedPrefab;
 
     private enum Weapon { none, sword};
@@ -37,10 +37,7 @@ public class PlayerManager : CharacterManager, IInteractable
         this.weapon = Weapon.none;
         ChangeState(State.Idle);
 
-		bulletPrefabs[0] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Fire.prefab", typeof(GameObject));
-        bulletPrefabs[1] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Water.prefab", typeof(GameObject));
-        bulletPrefabs[2] = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Thunder.prefab", typeof(GameObject));
-
+		bulletPrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bullets/Fire.prefab", typeof(GameObject));
         killedPrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Killed.prefab", typeof(GameObject));
 
         StartCoroutine(this.StateMachine());
@@ -49,9 +46,6 @@ public class PlayerManager : CharacterManager, IInteractable
     void Update()
     {
         timer += Time.deltaTime;
-        if (Input.GetButtonDown("Jump")) isJump = true;
-
-        if (Input.GetButtonDown("Fire1") && this.state != State.Attack) ChangeState(State.Attack);
 
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
 
@@ -62,89 +56,23 @@ public class PlayerManager : CharacterManager, IInteractable
         transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
 
-    // input 관련 함수 bool 값 체크
-    // animation만 있는 함수? 분리가 필요하다
-
-    void FixedUpdate()
-    {
-        if (this.transform.position.y < -8) ChangeState(State.Killed);
-        Move();
-        Jumping();
-    }
-
     protected override IEnumerator Idle()
 	{
-        if (Input.GetButtonDown("Jump") || Input.GetButton("Horizontal"))
+        if (Input.GetButtonDown("Jump"))
         {
-            yield break;
+            isJump = true;
+            ChangeState(State.Chase);
         }
-
-        if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) animator.Play("Idle");
-        yield break;
+        if (Input.GetAxisRaw("Horizontal") != 0) ChangeState(State.Chase);
+        if (Input.GetButtonDown("Fire1")) ChangeState(State.Attack);
+        animator.Play("Idle");
+        yield return null;
 	}
 
     protected override IEnumerator Chase()
 	{
-		yield return null;
-    }
-
-    protected override IEnumerator Attack()
-	{
-        switch(this.weapon)
-        {
-            case Weapon.none:
-                animator.Play("Attack");
-
-                var curAnimStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
-                GameObject bullet = bulletPrefabs[0];
-
-                bulletDelay = bullet.GetComponent<BulletManager>().bulletDelay;
-                if (timer > bulletDelay)
-                {
-                    Instantiate(bullet, this.transform.position + new Vector3(this.transform.localScale.x * 0.7f, 0, 0), this.transform.rotation);
-                    timer = 0;
-                }
-
-                ChangeState(State.Idle);
-                yield return new WaitForSeconds(0.1f);
-                break;
-            case Weapon.sword:
-                var sword = this.transform.Find("Sword");
-                this.bulletDelay = 0.1f;
-                if (timer > bulletDelay)
-                {
-                    sword.gameObject.GetComponent<BoxCollider2D>().enabled = true;
-                    var curRotation = sword.transform.localRotation;
-                    var curPosition = sword.transform.localPosition;
-                    for (int i = 0; i < 3; ++i)
-                    {
-                        sword.localRotation = Quaternion.Euler(0, 0, -20);
-                        yield return new WaitForSeconds(0.05f);
-                        sword.localRotation = curRotation;
-                        yield return new WaitForSeconds(0.05f);
-                    }
-                    sword.localPosition = new Vector3(0,0.5f,0);
-                    sword.localRotation = Quaternion.Euler(0, 0, 120);
-                    yield return new WaitForSeconds(0.05f);
-                    sword.localRotation = curRotation;
-                    sword.localPosition = curPosition;
-                    sword.gameObject.GetComponent<BoxCollider2D>().enabled = false;
-                    timer = 0;
-                }
-
-                ChangeState(State.Idle);
-                yield return new WaitForSeconds(0.1f);
-                break;
-        }
-    }
-    void Jumping()
-    {
-        if (isKnockBack) return;
-        if (hp < 0) return;
-
         Vector2 jumpVelocity = Vector2.zero;
-        if (isJump)
+        if (isJump || Input.GetButtonDown("Jump"))
         {
             switch (jump)
             {
@@ -171,40 +99,77 @@ public class PlayerManager : CharacterManager, IInteractable
                 case Jump.doubleJumpping:
                     break;
             }
+            yield return null;
         }
-
-    }
-    void Move()
-    {
-        if (state == State.Attack) return;
-        if (isKnockBack) return;
-        if (hp < 0) return;
 
         Vector3 moveVelocity = Vector3.zero;
         float horizontal = Input.GetAxisRaw("Horizontal");
 
-        if (horizontal == 0 && !animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+        switch (horizontal)
         {
-            ChangeState(State.Idle);
-            return;
-        }
-        else
-        {
-            if (Input.GetAxisRaw("Horizontal") < 0)
-            {
-                moveVelocity = Vector3.left;
-                transform.localScale = new Vector3(-1, 1, 1);
-            }
-
-            else if (Input.GetAxisRaw("Horizontal") > 0)
-            {
+            case 0:
+                ChangeState(State.Idle);
+                yield return null;
+                break;
+            case 1:
                 moveVelocity = Vector3.right;
                 transform.localScale = new Vector3(1, 1, 1);
-            }
+                break;
+            case -1:
+                moveVelocity = Vector3.left;
+                transform.localScale = new Vector3(-1, 1, 1);
+                break;
         }
-        var curAnimStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        if (curAnimStateInfo.IsName("Idle")||(curAnimStateInfo.IsName("Attack")&&curAnimStateInfo.normalizedTime >=1f)) animator.Play("Walk");
+
+         animator.Play("Walk");
         transform.position += moveVelocity * speed * Time.deltaTime;
+    }
+
+    protected override IEnumerator Attack()
+	{
+        switch(this.weapon)
+        {
+            case Weapon.none:
+                animator.Play("Attack");
+
+                GameObject bullet = bulletPrefab;
+
+                bulletDelay = bullet.GetComponent<BulletManager>().bulletDelay;
+                if (timer > bulletDelay)
+                {
+                    Instantiate(bullet, this.transform.position + new Vector3(this.transform.localScale.x, 0, 0), this.transform.rotation);
+                    timer = 0;
+                }
+
+                break;
+            case Weapon.sword:
+                var sword = this.transform.Find("Sword(Clone)");
+                this.bulletDelay = 0.1f;
+                if (timer > bulletDelay)
+                {
+                    sword.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+                    var curRotation = sword.transform.localRotation;
+                    var curPosition = sword.transform.localPosition;
+                    for (int i = 0; i < 3; ++i)
+                    {
+                        sword.localRotation = Quaternion.Euler(0, 0, -20);
+                        yield return new WaitForSeconds(0.05f);
+                        sword.localRotation = curRotation;
+                        yield return new WaitForSeconds(0.05f);
+                    }
+                    sword.localPosition = new Vector3(0, 0.5f, 0);
+                    sword.localRotation = Quaternion.Euler(0, 0, 120);
+                    yield return new WaitForSeconds(0.05f);
+                    sword.localRotation = curRotation;
+                    sword.localPosition = curPosition;
+                    sword.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                    timer = 0;
+                }
+                break;
+        }
+
+        ChangeState(State.Idle);
+        yield return new WaitForSeconds(0.1f);
     }
 
     protected override IEnumerator Killed()

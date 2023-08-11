@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
 
         this.coins = 0;
-        this.life = 0;
+        this.life = 5;
 
         Init();
     }
@@ -48,8 +48,14 @@ public class GameManager : MonoBehaviour
 
     void PlayerKilled()
     {
-        GameObject.Find("Main Camera").transform.position = new Vector3(0, 0, -10);
-        Init();
+        if (this.life > 0)
+        {
+            life -= 1;
+            GameObject.Find("Main Camera").transform.position = new Vector3(0, 0, -10);
+            Init();
+        }
+
+        //SceneChange("EndingScene");
     }
 
     public void SceneChange(string sceneName)
